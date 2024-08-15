@@ -21,6 +21,8 @@ import RobotoItalic from './Fonts/Roboto/Roboto-Italic.ttf';
 import verified from './assets/verified.png';
 import lobster from './Fonts/Roboto_Slab/static/RobotoSlab-Medium.ttf';
 import fontFile from './Fonts/Roboto_Slab/static/RobotoSlab-Medium.ttf';
+import bebasneue from './Fonts/Bebas_Neue/BebasNeue-Regular.ttf';
+import myriad from './Fonts/myriad-pro/MYRIADPRO-REGULAR.OTF';
 import yb_logo from './assets/yb_logo.png';
 import logooo from './assets/logooo.png';
 import side from './assets/side2.png';
@@ -54,6 +56,8 @@ Font.register({
 });
 
 Font.register({ family: 'Lobster', src: fontFile });
+Font.register({ family:'bebasneue',src:bebasneue});
+Font.register({ family:'myriad',src:myriad});
 
 Font.registerEmojiSource({
   format: 'png',
@@ -148,11 +152,11 @@ const PDFGenerator = ({ id, idList }) => {
             zerothSet.push(post);
           }
 
-          else if ((post.content.length >= 1400) && (post.content.length < 1700)) {
+          else if ((post.content.length >= 1200) && (post.content.length < 1700)) {
             firstSet.push(post)
           }
 
-          else if ((post.content.length >= 800) && (post.content.length < 1400)) {
+          else if ((post.content.length >= 800) && (post.content.length < 1200)) {
             secondSet.push(post)
           }
 
@@ -417,11 +421,11 @@ const PDFGenerator = ({ id, idList }) => {
               zerothSet.push(post);
             }
 
-            else if ((post.content.length >= 1400) && (post.content.length < 1700)) {
+            else if ((post.content.length >= 2000) && (post.content.length < 1700)) {
               firstSet.push(post)
             }
 
-            else if ((post.content.length >= 800) && (post.content.length < 1400)) {
+            else if ((post.content.length >= 800) && (post.content.length < 2000)) {
               secondSet.push(post)
             }
 
@@ -812,10 +816,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -889,10 +893,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -967,10 +971,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -1045,10 +1049,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -1123,10 +1127,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -1323,10 +1327,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -1403,10 +1407,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -1482,10 +1486,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -1561,10 +1565,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>
@@ -1643,10 +1647,10 @@ const PDFGenerator = ({ id, idList }) => {
                     <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
                   </View>
                   <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
+                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 20,
     fontWeight: 700,
     color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+    fontFamily: "bebasneue",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
                   </View>
                   <View style={{height:'100%',width:'10%'}}>

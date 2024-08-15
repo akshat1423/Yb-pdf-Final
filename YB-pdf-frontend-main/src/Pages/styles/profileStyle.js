@@ -21,7 +21,7 @@ export const stylesProfile = StyleSheet.create({
     backgroundColor:'black',
   },
   text: {
-    fontFamily: "Lobster",
+    // fontFamily: "Lobster",
     fontSize: 11.5,
     paddingRight: '10px',
     color: 'white',
@@ -99,12 +99,14 @@ export const stylesProfile = StyleSheet.create({
     marginLeft: '-20px',
   },
   nameText: {
+    fontFamily:'bebasneue',
     textAlign: 'center',
     marginTop: '10mm',
-    fontSize: 18,
+    fontSize: 25,
     color:'red'
   },
   nicknameText: {
+    // fontFamily:'calibri',
     textAlign: 'justify',
     marginTop: '20mm',
   },

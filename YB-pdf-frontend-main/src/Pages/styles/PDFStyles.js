@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
     // transform: 'rotate(-10deg)',
     transformOrigin: "center center",
     height: 'auto',         
+    fontFamily:'myriad',
   },
 
   imageContainerRight: {
@@ -237,7 +238,7 @@ export const styles = StyleSheet.create({
   },
 
   mediumWidth: {
-    width: "78%",
+    width: "90%",
   },
 
   largeHeight: {
@@ -249,7 +250,7 @@ export const styles = StyleSheet.create({
   },
 
   largeWidth: {
-    width: "71%",
+    width: "90%",
   },
 
   largerHeight: {
@@ -257,7 +258,7 @@ export const styles = StyleSheet.create({
   },
 
   largerWidth: {
-    width: "70%",
+    width: "90%",
   },
 
   textContainer: {
@@ -266,6 +267,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     marginLeft: 10,
+    fontFamily:'myriad',
   },
 
 
@@ -356,19 +358,19 @@ export const styles = StyleSheet.create({
   },
 
   mediumProfilePic:{
-    width: "0.9in",
-    height: "0.9in",
+    width: "0.7in",
+    height: "0.7in",
   },
 
 
   largeProfilePic:{
-    width: "1.2in",
-    height: "1.2in",
+    width: "1in",
+    height: "1in",
   },
 
   largerProfilePic: {
-    width: "1.4in",
-    height: "1.4in",
+    width: "1in",
+    height: "1in",
   },
 
 
@@ -384,8 +386,8 @@ export const styles = StyleSheet.create({
     left: '75%',
     fontSize: 10,
     fontFamily: "Comic",
-    fontWeight: 700,
-    fontStyle: "italic",
+    // fontWeight: 700,
+    // fontStyle: "italic",
     marginTop: '5px',
 
   },
@@ -401,8 +403,8 @@ export const styles = StyleSheet.create({
       // position:'absolute',
       fontSize: 10,
       fontFamily: "Comic",
-      fontWeight: 700,
-      fontStyle: "italic",
+      // fontWeight: 700,
+      // fontStyle: "italic",
       marginTop: '5px'
     } ,
   

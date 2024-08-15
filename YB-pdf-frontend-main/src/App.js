@@ -11,7 +11,8 @@ const App = () => {
   const idList = [14]; // Replace this with your actual list of ids
 
   const ids = [[ 
-    1745,81
+    // 1745,81
+    // 107,6930,6715,346,798,712
   ]];
   const downloadAnchorRef = useRef(null);
   const [readyToDownload, setReadyToDownload] = useState(false);
@@ -23,7 +24,7 @@ const App = () => {
         // Actual PDF generation logic can be placed here
       }
       setReadyToDownload(true);
-      download()
+      // download()
     };
 
     generatePDFs();
