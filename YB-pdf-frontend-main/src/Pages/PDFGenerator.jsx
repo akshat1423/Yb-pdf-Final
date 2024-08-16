@@ -26,7 +26,12 @@ import myriad from './Fonts/myriad-pro/MYRIADPRO-REGULAR.OTF';
 import yb_logo from './assets/yb_logo.png';
 import logooo from './assets/logooo.png';
 import side from './assets/side2.png';
-import bg from './assets/bg.png'
+import bg from './assets/bg.png';
+import { PDFDocument } from 'pdf-lib';
+
+
+
+
 const { createCanvas, loadImage } = require('canvas');
 const pixelmatch = require('pixelmatch');
 
