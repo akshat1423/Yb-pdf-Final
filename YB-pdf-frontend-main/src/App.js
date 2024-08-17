@@ -8,10 +8,10 @@ import {
 import PDFGenerator from "./Pages/PDFGenerator";
 
 const App = () => {
-  const idList = [14]; // Replace this with your actual list of ids
+  const idList = [5972]; // Replace this with your actual list of ids
 
   const ids = [[ 
-    // 1090
+    6718
   ]];
   const downloadAnchorRef = useRef(null);
   const [readyToDownload, setReadyToDownload] = useState(false);

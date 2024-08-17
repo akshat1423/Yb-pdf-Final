@@ -32,7 +32,6 @@ def compare_images(image1, image2, similarity_threshold=99.0):
     return similarity_percentage >= similarity_threshold
 
 # Function to resize image
-
 def resize_image(image, max_size=100):
     if max(image.size) > max_size:
         aspect_ratio = float(image.size[0]) / float(image.size[1])
@@ -44,7 +43,6 @@ def resize_image(image, max_size=100):
     return image
 
 # Main function to process posts
-
 def process_post(post):
     print(post['id'])
     if not post['is_anonymous']:
@@ -70,6 +68,7 @@ def process_profiles(profile):
     # comparisonImageUrlProfile = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
     comparisonImageUrlProfile = "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
     comparisonImageProfile = resize_image(download_image(comparisonImageUrlProfile))
+    
     comparisonImageUrl = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_6/img4.png"
     comparisonImage = resize_image(download_image(comparisonImageUrl))
 
