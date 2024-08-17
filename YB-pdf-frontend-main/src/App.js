@@ -8,7 +8,7 @@ import {
 import PDFGenerator from "./Pages/PDFGenerator";
 
 const App = () => {
-  const idList = [14]; // Replace this with your actual list of ids
+  const idList = [6718]; // Replace this with your actual list of ids
 
   const ids = [[ 
     // 1745,81
