@@ -42,25 +42,41 @@ export const styles = StyleSheet.create({
     // transform: 'rotate(-10deg)',
     transformOrigin: "center center",
     height: 'auto',         
+    fontFamily:'myriad',
+    backgroundColor: '#6dd4de',
   },
 
   imageContainerRight: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     // transform: 'rotate(10deg)',
-    transformOrigin: "center center",
-    height: 'auto',         
+    // transformOrigin: "center center",
+    height: 'auto',  
+    marginRight:'10%',
   },
 
   profilePicRight: {
-    width: "1.7in",
-    height: "1.7in",
+    width: "70%",
+    height: "70%",
     // transform: 'rotate(10deg)',
     transformOrigin: "center center",
     objectFit: "cover",
     // borderRadius: "6px",
+    // marginRight:'1px',
+
+  },
+
+  profilePicRightX: {
+    width: "70%",
+    height: "70%",
+    // transform: 'rotate(10deg)',
+    transformOrigin: "center center",
+    objectFit: "cover",
+    // borderRadius: "6px",
+    marginRight:'1%',
+
   },
 
   smallerProfilePic: {
@@ -237,7 +253,7 @@ export const styles = StyleSheet.create({
   },
 
   mediumWidth: {
-    width: "85%",
+    width: "84.5%",
   },
 
   largeHeight: {
@@ -249,7 +265,7 @@ export const styles = StyleSheet.create({
   },
 
   largeWidth: {
-    width: "85%",
+    width: "84.5%",
   },
 
   largerHeight: {
@@ -257,16 +273,26 @@ export const styles = StyleSheet.create({
   },
 
   largerWidth: {
-    width: "85%",
+    width: "84.5%",
   },
+
+
 
   textContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    marginLeft: 10,
-    
+    marginLeft: '3%',
+    fontFamily:'myriad',
+    // backgroundColor: '#42fac0',
+    height: '100%',
+    width: '100%',
+    paddingLeft:'2%',
+    paddingRight:'2%',
+    paddingTop:'1%',
+    paddingBottom:'1%',
+    textAlign: 'justify',
   },
 
 
@@ -275,6 +301,17 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    fontFamily:'myriad',
+    textAlign: 'justify',
+    // backgroundColor: '#42fac0',
+    height: '100%',
+    width: '100%',
+  marginRight   :'3%',
+  paddingLeft:'2%',
+  paddingRight:'2%',
+  paddingTop:'1%',
+  paddingBottom:'1%',
+
   },
 
 
@@ -344,35 +381,55 @@ export const styles = StyleSheet.create({
     width: "100%"
   },
 
-
-
   smallProfilePic:{
     width: "0.7in",
     height: "0.7in",
   },
 
+  smallProfilePicX:{
+    width: "0.5in",
+    height: "0.5in",
+  },
+
   semiMediumProfilePic:{
-    width: "0.85in",
-    height: "0.85in",
+    width: "0.7in",
+    height: "0.7in",
   },
 
   mediumProfilePic:{
-    width: "0.9in",
-    height: "0.9in",
+    width: "0.7in",
+    height: "0.7in",
   },
 
 
   largeProfilePic:{
-    width: "1.2in",
-    height: "1.2in",
+    width: "1in",
+    height: "1in",
   },
 
   largerProfilePic: {
-    width: "1.4in",
-    height: "1.4in",
+    width: "1in",
+    height: "1in",
   },
 
 
+  // smallProfileText:{
+  //   // position: "absolute",
+  //   // fontSize: 10,
+  //   // fontFamily: "Comic",
+  //   // fontWeight: 700,
+  //   // fontStyle: "italic",
+  //   // marginBottm: 10,
+  //   // right: 0,
+  //   position: 'relative',
+  //   left: '75%',
+  //   fontSize: 10,
+  //   fontFamily: "Comic",
+  //   // fontWeight: 700,
+  //   // fontStyle: "italic",
+  //   marginTop: '5px',
+
+  // },
   smallProfileText:{
     // position: "absolute",
     // fontSize: 10,
@@ -381,15 +438,18 @@ export const styles = StyleSheet.create({
     // fontStyle: "italic",
     // marginBottm: 10,
     // right: 0,
-    // position: 'relative',
-    // left: '75%',
+    position: 'relative',
+    left: '37%',
     fontSize: 10,
-    fontFamily: "Comic",
+    fontFamily: "mayraid",
     fontWeight: 700,
     fontStyle: "italic",
     marginTop: '5px',
+    fontSize: 8.5,
+    fontFamily: "Roboto",
+    // textAlign:'center'
 
-  },
+  },
   // smallProfileTextr:{
     // position: "absolute",
     // fontSize: 10,
@@ -398,15 +458,25 @@ export const styles = StyleSheet.create({
     // fontStyle: "italic",
     // marginBottm: 0,
     // left: 0,
+    // smallProfileTextr:{
+    //   // position:'absolute',
+    //   fontSize: 10,
+    //   fontFamily: "Comic",
+    //   // fontWeight: 700,
+    //   // fontStyle: "italic",
+    //   marginTop: '5px'
+    // } ,
     smallProfileTextr:{
-      // position:'absolute',
+      position:'relative',
       fontSize: 10,
       fontFamily: "Comic",
       fontWeight: 700,
       fontStyle: "italic",
-      marginTop: '5px'
-    } ,
-  
+      marginTop: '5px',
+      left:'45%',
+      fontSize: 8.5,
+    fontFamily: "Roboto",
+    } ,
   
   // mediumProfileText:{
   //   fontSize: 11,

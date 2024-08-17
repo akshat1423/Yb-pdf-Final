@@ -12,6 +12,7 @@ export const stylesProfile = StyleSheet.create({
     height: '100%',
     opacity: 1, // Adjust the opacity value as needed
   },
+  
   section: {
     // position: "relative",
     zIndex: 1,
@@ -21,7 +22,7 @@ export const stylesProfile = StyleSheet.create({
     backgroundColor:'black',
   },
   text: {
-    fontFamily: "Lobster",
+    // fontFamily: "Lobster",
     fontSize: 11.5,
     paddingRight: '10px',
     color: 'white',
@@ -53,14 +54,15 @@ export const stylesProfile = StyleSheet.create({
   leftImage: {
     width: '230px',
     height: '230px',
-    borderRadius: '0%',
-    borderStyle: 'solid',
-    borderWidth: 6,
-    borderColor: 'white',
+    // borderRadius: '0%',
+    // borderStyle: 'solid',
+    // borderWidth: 6,
+    // borderColor: 'white',
     padding: 6,
     objectFit: 'cover',
   },
   series:{
+    fontFamily:'FranklinGothicMedium',
     color:'white',
     fontSize:24,
     marginTop:'10px',
@@ -99,12 +101,14 @@ export const stylesProfile = StyleSheet.create({
     marginLeft: '-20px',
   },
   nameText: {
+    fontFamily:'bebasneue',
     textAlign: 'center',
     marginTop: '10mm',
-    fontSize: 18,
+    fontSize: 25,
     color:'red'
   },
   nicknameText: {
+    // fontFamily:'calibri',
     textAlign: 'justify',
     marginTop: '20mm',
   },
@@ -134,23 +138,23 @@ export const stylesProfile = StyleSheet.create({
   },
   degreeText: {
     textAlign: 'justify',
-    marginTop: '56mm',
+    marginTop: '62mm',
   },
   join_yearText: {
     textAlign: 'justify',
-    marginTop: '62mm',
+    marginTop: '68mm',
   },
   graduation_yearText: {
     textAlign: 'justify',
-    marginTop: '68mm',
+    marginTop: '74mm',
   },
   careerText: {
     textAlign: 'justify',
-    marginTop: '74mm',
+    marginTop: '80mm',
   },
   taglineText: {
     textAlign: 'justify',
-    marginTop: '74mm',
+    marginTop: '86mm',
     lineHeight: '1'
   },
   topImageContainer: {
@@ -210,7 +214,7 @@ export const stylesProfile = StyleSheet.create({
     padding: '10px',
     borderTop: '2px solid red',
     borderRight: '2px solid red',
-    borderLeft: '2px solid transparent',  // Transparent border on the right
+    // borderLeft: '2px solid transparent',
     borderBottom: '2px solid red', // Transparent border on the bottom
 
     
@@ -222,12 +226,12 @@ export const stylesProfile = StyleSheet.create({
     padding: '10px',
     borderTop: '2px solid red',
     borderLeft: '2px solid red',
-    borderRight: '2px solid transparent',  // Transparent border on the right
+    // borderRight: '2px solid transparent',
     borderBottom: '2px solid red', // Transparent border on the bottom
   },
 
   yb_logo:{
-    width: '30px',
+    width: '20px',
     height: '30px',
     marginLeft:'50px',
     marginTop:'10px'

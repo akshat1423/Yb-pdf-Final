@@ -8,9 +8,13 @@ import {
 import PDFGenerator from "./Pages/PDFGenerator";
 
 const App = () => {
-  const idList = [6828]; // Replace this with your actual list of ids
+  const idList = [14]; // Replace this with your actual list of ids
 
-  const ids = [];
+  const ids = [[ 
+    
+    // 1745,81
+    // 107,6930,6715,346,798,712
+  ]];
   const downloadAnchorRef = useRef(null);
   const [readyToDownload, setReadyToDownload] = useState(false);
   // useEffect(() => {
