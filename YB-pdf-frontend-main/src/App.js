@@ -12,7 +12,7 @@ const App = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/id_data')
+    axios.get('https://yearbook-rendering.sarc-iitb.org/api/id_data')
       .then(response => {
         setData(response.data);
         console.log(data);
