@@ -5,6 +5,15 @@ import { stylesProfile } from './styles/profileStyle.js';
 import { stylesSigningOff } from './styles/signingOffStyle.js';
 import background from './assets/background.png'
 import writeForYourself from './assets/write.jpg';
+import back1 from './assets/back/1.png'
+import back2 from './assets/back/2.png'
+import back3 from './assets/back/3.png'
+import back4 from './assets/back/4.png'
+import back5 from './assets/back/5.png'
+import front1 from './assets/front/1.png'
+import front2 from './assets/front/2.png'
+import front3 from './assets/front/3.png'
+import front4 from './assets/front/4.png'
 import pic from './assets/background.jpg';
 import csvData from './CSVdata/Posts.csv'
 import { useFetchPosts } from '../hooks/useFetchPosts.jsx';
@@ -25,8 +34,12 @@ import yb_logo from './assets/yb_logo.png';
 import logooo from './assets/logooo.png';
 import side from './assets/side2.png';
 import bg from './assets/bg.png'
+import { PDFDocument } from 'pdf-lib';
+// import fs from 'fs';
+// import path from 'path';
 const { createCanvas, loadImage } = require('canvas');
 const pixelmatch = require('pixelmatch');
+
 
 
 const removeLineBreaks = (text) => {
@@ -116,6 +129,24 @@ const PDFGenerator = ({ id, idList }) => {
 
         const responseData = response.data;
 
+        // Additional PDF logic
+        // const commonPdfPath = path.resolve(__dirname, 'path/to/common.pdf');
+        // const idPdfPath = `https://drive.google.com/drive/folders/1SiDW12qn6ZgzO6P3s3DIiGm2An0YRg_C/${id}.pdf`;
+
+        // Load the common PDF and the specific ID PDF
+        // const commonPdfBytes = fs.readFileSync(commonPdfPath);
+        // const idPdfBytes = await axios.get(idPdfPath, { responseType: 'arraybuffer' }).then(res => res.data);
+
+        // Create a new PDF document
+        // const mergedPdf = await PDFDocument.create();
+
+        // Load the existing PDFs
+        // const commonPdf = await PDFDocument.load(commonPdfBytes);
+        // const idPdf = await PDFDocument.load(idPdfBytes);
+
+        // Merge pages from common.pdf
+        // const commonPages = await mergedPdf.copyPages(commonPdf, commonPdf.getPageIndices());
+        // commonPages.forEach(page => mergedPdf.addPage(page));
 
         // const postData = { "posts": responseData };
 
@@ -645,6 +676,47 @@ const PDFGenerator = ({ id, idList }) => {
 
         setPersons(temp)
 
+        // Convert the generated content to PDF and add to mergedPdf
+
+        const mergePDFs = async () => {
+          // Create a new PDF document
+          const mergedPdf = await PDFDocument.create();
+
+          // Fetch the common PDF
+          const commonPdfUrl = 'https://1drv.ms/b/s!Apgo7OA59BgboowdipewmyU4DoNGaA?e=LebeUH';
+          const commonPdfBytes = await fetch(commonPdfUrl).then(res => res.arrayBuffer());
+          const commonPdf = await PDFDocument.load(commonPdfBytes);
+
+          // Copy pages from common PDF
+          const commonPages = await mergedPdf.copyPages(commonPdf, commonPdf.getPageIndices());
+          commonPages.forEach(page => mergedPdf.addPage(page));
+
+          // Fetch and merge the specific ID PDF
+          const idPdfUrl = `https://1drv.ms/b/s!Apgo7OA59BgboowcRTgOSWbo0PC7Yg?e=vwZyz1`;
+          const idPdfBytes = await axios.get(idPdfUrl, { responseType: 'arraybuffer' }).then(res => res.data);
+          const idPdf = await PDFDocument.load(idPdfBytes);
+
+          // Copy pages from ID PDF
+          const idPages = await mergedPdf.copyPages(idPdf, idPdf.getPageIndices());
+          idPages.forEach(page => mergedPdf.addPage(page));
+
+          // Save the merged PDF
+          const pdfBytes = await mergedPdf.save();
+
+          // You can now use pdfBytes to display or download the PDF
+          // For example, to create a download link:
+          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          console.log(url);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `${id}_merged.pdf`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+
+        await mergePDFs();
 
         setLoading(false);
 
@@ -668,97 +740,115 @@ const PDFGenerator = ({ id, idList }) => {
 
 
 
-
   return (
 
     <Document>
 
 
       <>
-      {profile &&
-          <Page size="A4" style={styles.page}>
-          <View style={stylesProfile.section}>
-           <Image src={bg} style={stylesProfile.backgroundImg} />
-          
-            <View style={stylesProfile.contentContiner}>
-            <view style={stylesProfile.heading}>
-              <Image src={yb_logo} style={stylesProfile.yb_logo}/>
-              <Text style={stylesProfile.series}>SERIES</Text>
-            </view>
-            <view style={stylesProfile.contentContainer}>
-              <View style={stylesProfile.leftContainer}>
-                {profile.profile_image && (
-                  <Image
-                    src={`${profile.profile_image}`}
-                    style={stylesProfile.leftImage}
-                  />
-                )}
-              </View>
-              <View style={stylesProfile.rightContainer}>
-                <Text style={[stylesProfile.text, stylesProfile.nameText]}>{profile.name}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>Nickname: {profile.nickname}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.dobText]}>DoB: {profile.dob}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.emailText]}>Email: {profile.email}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.hostelText]}>Hostel: {profile.hostel}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.room_noText]}>Room No: {profile.room_no}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.departmentText]}>Department: {profile.department.split("&")[0]}</Text>
-                {/* <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> */}
-                <Text style={[stylesProfile.text, stylesProfile.degreeText]}>Degree: {profile.degree}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>Joining Year: {profile.join_year}</Text>
-                <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>Graduation Year: {profile.graduation_year}</Text>
-                {/* <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text> */}
-                {profile.tagline && (
-                  <Text style={[stylesProfile.text, stylesProfile.taglineText]}>Tagline: {profile.tagline}</Text>
-                )}
-              </View>
-            </view>  
-            </View>
-
-            <View style={stylesProfile.container}>
-              <View style={stylesProfile.gradientBox} />
-              <View style={stylesProfile.imageRow}>
-                <View style={stylesProfile.imageContainer}>
-                  {profile.img1 && (
-                    <Image
-                      src={`${profile.img1}`}
-                      style={stylesProfile.leftImage1}
-                    />
-                  )}
-                </View>
-                <View style={stylesProfile.imageContainer2}>
-                  {profile.img2 && (
-                    <Image
-                      src={`${profile.img2}`}
-                      style={stylesProfile.leftImage1}
-                    />
-                  )}
-                </View>
-              </View>
-
-              <View style={stylesProfile.imageRow}>
-                <View style={stylesProfile.imageContainer}>
-                  {profile.img3 && (
-                    <Image
-                      src={`${profile.img3}`}
-                      style={stylesProfile.leftImage1}
-                    />
-                  )}
-                </View>
-                <View style={stylesProfile.imageContainer2}>
-                  {profile.img4 && (
-                    <Image
-                      src={`${profile.img4}`}
-                      style={stylesProfile.leftImage1}
-                    />
-                  )}
-                </View>
-              </View>
-            </View>
-
-
-
+        <Page size="A4" style={stylesSigningOff.page}>
+          <View style={stylesSigningOff.section}>
+            <Image src={front1} style={stylesSigningOff.backgroundImg} />
           </View>
         </Page>
+
+        <Page size="A4" style={stylesSigningOff.page}>
+          <View style={stylesSigningOff.section}>
+            <Image src={front3} style={stylesSigningOff.backgroundImg} />
+          </View>
+        </Page>
+
+        <Page size="A4" style={stylesSigningOff.page}>
+          <View style={stylesSigningOff.section}>
+            <Image src={front4} style={stylesSigningOff.backgroundImg} />
+          </View>
+        </Page>
+
+
+        {profile &&
+          <Page size="A4" style={styles.page}>
+            <View style={stylesProfile.section}>
+              <Image src={bg} style={stylesProfile.backgroundImg} />
+
+              <View style={stylesProfile.contentContiner}>
+                <view style={stylesProfile.heading}>
+                  <Image src={yb_logo} style={stylesProfile.yb_logo} />
+                  <Text style={stylesProfile.series}>SERIES</Text>
+                </view>
+                <view style={stylesProfile.contentContainer}>
+                  <View style={stylesProfile.leftContainer}>
+                    {profile.profile_image && (
+                      <Image
+                        src={`${profile.profile_image}`}
+                        style={stylesProfile.leftImage}
+                      />
+                    )}
+                  </View>
+                  <View style={stylesProfile.rightContainer}>
+                    <Text style={[stylesProfile.text, stylesProfile.nameText]}>{profile.name}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>Nickname: {profile.nickname}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.dobText]}>DoB: {profile.dob}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.emailText]}>Email: {profile.email}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.hostelText]}>Hostel: {profile.hostel}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.room_noText]}>Room No: {profile.room_no}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.departmentText]}>Department: {profile.department.split("&")[0]}</Text>
+                    {/* <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> */}
+                    <Text style={[stylesProfile.text, stylesProfile.degreeText]}>Degree: {profile.degree}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>Joining Year: {profile.join_year}</Text>
+                    <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>Graduation Year: {profile.graduation_year}</Text>
+                    {/* <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text> */}
+                    {profile.tagline && (
+                      <Text style={[stylesProfile.text, stylesProfile.taglineText]}>Tagline: {profile.tagline}</Text>
+                    )}
+                  </View>
+                </view>
+              </View>
+
+              <View style={stylesProfile.container}>
+                <View style={stylesProfile.gradientBox} />
+                <View style={stylesProfile.imageRow}>
+                  <View style={stylesProfile.imageContainer}>
+                    {profile.img1 && (
+                      <Image
+                        src={`${profile.img1}`}
+                        style={stylesProfile.leftImage1}
+                      />
+                    )}
+                  </View>
+                  <View style={stylesProfile.imageContainer2}>
+                    {profile.img2 && (
+                      <Image
+                        src={`${profile.img2}`}
+                        style={stylesProfile.leftImage1}
+                      />
+                    )}
+                  </View>
+                </View>
+
+                <View style={stylesProfile.imageRow}>
+                  <View style={stylesProfile.imageContainer}>
+                    {profile.img3 && (
+                      <Image
+                        src={`${profile.img3}`}
+                        style={stylesProfile.leftImage1}
+                      />
+                    )}
+                  </View>
+                  <View style={stylesProfile.imageContainer2}>
+                    {profile.img4 && (
+                      <Image
+                        src={`${profile.img4}`}
+                        style={stylesProfile.leftImage1}
+                      />
+                    )}
+                  </View>
+                </View>
+              </View>
+
+
+
+            </View>
+          </Page>
         }
 
         {smallerPosts && smallerPosts.map((posts, index) => {
@@ -802,29 +892,31 @@ const PDFGenerator = ({ id, idList }) => {
           }
 
           return <Page size="A4" style={styles.page}>
-          <View key={index} style={styles.section}>
-            {/* <Image src={background} style={styles.backgroundImg} /> */}
-            <View style={styles.container}>
-            {/* <Image src={background} style={styles.backgroundImg} /> */}
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
-
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-
-                </View>
+            <View key={index} style={styles.section}>
+              {/* <Image src={background} style={styles.backgroundImg} /> */}
+              <View style={styles.container}>
+                {/* <Image src={background} style={styles.backgroundImg} /> */}
+                <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                  <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ height: '100%', width: '20%' }}>
+                      <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
                     </View>
-     <View style={{height:'95%'}}>
+                    <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      {profile && <Text style={{
+                        color: 'white', textAlign: 'center', fontSize: 14,
+                        fontWeight: 700,
+                        color: "#ffffff",
+                        fontFamily: "Roboto",
+                      }}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+
+                    </View>
+                    <View style={{ height: '100%', width: '10%' }}>
+                      <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                    </View>
+
+                  </View>
+                </View>
+                <View style={{ height: '95%' }}>
 
                   {posts &&
                     posts.map((post, key) => {
@@ -832,7 +924,7 @@ const PDFGenerator = ({ id, idList }) => {
                       return (
                         <View key={post.id}>
                           {leftPost && (
-                            <View style={[styles.postContainer, styles.smallHeight,styles.l]}>
+                            <View style={[styles.postContainer, styles.smallHeight, styles.l]}>
                               <View styles={styles.imageContainer}>
                                 <Image src={post.is_anonymous
                                   ? "https://avatars.githubusercontent.com/u/16786985?v=4" : (`https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`)} style={[styles.profilePicLeft, styles.smallProfilePic]} />
@@ -848,7 +940,7 @@ const PDFGenerator = ({ id, idList }) => {
                           )}
 
                           {!leftPost && (
-                            <View style={[styles.postContainer, styles.smallHeight,styles.r]}>
+                            <View style={[styles.postContainer, styles.smallHeight, styles.r]}>
                               <View style={[styles.textContainerRight, styles.smallWidth]}>
                                 <Text style={styles.content}>{post.content}</Text>
                                 <View style={{ width: "100%", position: "relative" }}>
@@ -882,26 +974,28 @@ const PDFGenerator = ({ id, idList }) => {
             <View key={index} style={styles.section}>
               {/* <Image src={background} style={styles.backgroundImg} /> */}
               <View style={styles.container}>
-              {/* <Image src={background} style={styles.backgroundImg} /> */}
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
-
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-
-                </View>
+                {/* <Image src={background} style={styles.backgroundImg} /> */}
+                <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                  <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ height: '100%', width: '20%' }}>
+                      <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
                     </View>
-     <View style={{height:'95%'}}>
+                    <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      {profile && <Text style={{
+                        color: 'white', textAlign: 'center', fontSize: 14,
+                        fontWeight: 700,
+                        color: "#ffffff",
+                        fontFamily: "Roboto",
+                      }}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+
+                    </View>
+                    <View style={{ height: '100%', width: '10%' }}>
+                      <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                    </View>
+
+                  </View>
+                </View>
+                <View style={{ height: '95%' }}>
 
 
                   {posts &&
@@ -910,7 +1004,7 @@ const PDFGenerator = ({ id, idList }) => {
                       return (
                         <View key={post.id}>
                           {leftPost && (
-                            <View style={[styles.postContainer, styles.semiMediumHeight,styles.l]}>
+                            <View style={[styles.postContainer, styles.semiMediumHeight, styles.l]}>
                               <View styles={styles.imageContainer}>
                                 <Image src={post.is_anonymous
                                   ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.semiMediumProfilePic]} />
@@ -925,7 +1019,7 @@ const PDFGenerator = ({ id, idList }) => {
                           )}
 
                           {!leftPost && (
-                            <View style={[styles.postContainer, styles.semiMediumHeight,styles.r]}>
+                            <View style={[styles.postContainer, styles.semiMediumHeight, styles.r]}>
                               <View style={[styles.textContainerRight, styles.semiMediumWidth]}>
                                 <Text style={styles.content}>{post.content}</Text>
                                 <View style={{ width: "100%", position: "relative" }}>
@@ -960,26 +1054,28 @@ const PDFGenerator = ({ id, idList }) => {
             <View key={index} style={styles.section}>
               {/* <Image src={background} style={styles.backgroundImg} /> */}
               <View style={styles.container}>
-              {/* <Image src={background} style={styles.backgroundImg} /> */}
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
-
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-
-                </View>
+                {/* <Image src={background} style={styles.backgroundImg} /> */}
+                <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                  <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ height: '100%', width: '20%' }}>
+                      <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
                     </View>
-     <View style={{height:'95%'}}>
+                    <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      {profile && <Text style={{
+                        color: 'white', textAlign: 'center', fontSize: 14,
+                        fontWeight: 700,
+                        color: "#ffffff",
+                        fontFamily: "Roboto",
+                      }}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+
+                    </View>
+                    <View style={{ height: '100%', width: '10%' }}>
+                      <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                    </View>
+
+                  </View>
+                </View>
+                <View style={{ height: '95%' }}>
 
 
                   {posts &&
@@ -988,23 +1084,23 @@ const PDFGenerator = ({ id, idList }) => {
                       return (
                         <View key={post.id}>
                           {leftPost && (
-                            <View style={[styles.postContainer, styles.mediumHeight,styles.l]}>
+                            <View style={[styles.postContainer, styles.mediumHeight, styles.l,]}>
                               <View styles={styles.imageContainer}>
                                 <Image src={post.is_anonymous
                                   ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.mediumProfilePic]} />
                               </View>
-                              <View style={[styles.textContainer, styles.mediumWidth]}>
-                                <Text style={styles.content}>{post.content}</Text>
-                                <View style={{ width: "100%", position: "relative" }}>
-                                  <Text style={[{ color: "white" }, styles.smallProfileText]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
+                              <View style={[styles.textContainer, styles.mediumWidth,]}>
+                                <Text style={[styles.content,]}>{post.content}</Text>
+                                <View style={{ width: "100%" }}>
+                                  <Text style={[{ color: "white", }, styles.smallProfileText]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
                                 </View>
                               </View>
                             </View>
                           )}
 
                           {!leftPost && (
-                            <View style={[styles.postContainer, styles.mediumHeight,styles.r]}>
-                              <View style={[styles.textContainerRight, styles.mediumWidth]}>
+                            <View style={[styles.postContainer, styles.mediumHeight, styles.r]}>
+                              <View style={[styles.textContainerRight, styles.mediumWidth,]}>
                                 <Text style={styles.content}>{post.content}</Text>
                                 <View style={{ width: "100%", position: "relative" }}>
                                   <Text style={[{ color: "white" }, styles.smallProfileTextr]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
@@ -1036,28 +1132,30 @@ const PDFGenerator = ({ id, idList }) => {
           }
 
           return <Page size="A4" style={styles.page}>
-          <View key={index} style={styles.section}>
-            {/* <Image src={background} style={styles.backgroundImg} /> */}
-            <View style={styles.container}>
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
-
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-
-                </View>
+            <View key={index} style={styles.section}>
+              {/* <Image src={background} style={styles.backgroundImg} /> */}
+              <View style={styles.container}>
+                <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                  <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ height: '100%', width: '20%' }}>
+                      <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
                     </View>
-     <View style={{height:'95%'}}>
+                    <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      {profile && <Text style={{
+                        color: 'white', textAlign: 'center', fontSize: 14,
+                        fontWeight: 700,
+                        color: "#ffffff",
+                        fontFamily: "Roboto",
+                      }}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+
+                    </View>
+                    <View style={{ height: '100%', width: '10%' }}>
+                      <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                    </View>
+
+                  </View>
+                </View>
+                <View style={{ height: '95%' }}>
 
                   {posts &&
                     posts.map((post, key) => {
@@ -1065,7 +1163,7 @@ const PDFGenerator = ({ id, idList }) => {
                       return (
                         <View key={post.id}>
                           {leftPost && (
-                            <View style={[styles.postContainer, styles.largeHeight,styles.l]}>
+                            <View style={[styles.postContainer, styles.largeHeight, styles.l]}>
                               <View styles={styles.imageContainer}>
                                 <Image src={post.is_anonymous
                                   ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.largeProfilePic]} />
@@ -1080,7 +1178,7 @@ const PDFGenerator = ({ id, idList }) => {
                           )}
 
                           {!leftPost && (
-                            <View style={[styles.postContainer, styles.largeHeight,styles.r]}>
+                            <View style={[styles.postContainer, styles.largeHeight, styles.r]}>
                               <View style={[styles.textContainerRight, styles.largeWidth]}>
                                 <Text style={styles.content}>{post.content}</Text>
                                 <View style={{ width: "100%", position: "relative" }}>
@@ -1114,28 +1212,30 @@ const PDFGenerator = ({ id, idList }) => {
           }
 
           return <Page size="A4" style={styles.page}>
-          <View key={index} style={styles.section}>
-          <View style={styles.container}>
-            {/* <Image src={background} style={styles.backgroundImg} /> */}
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
-
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-
-                </View>
+            <View key={index} style={styles.section}>
+              <View style={styles.container}>
+                {/* <Image src={background} style={styles.backgroundImg} /> */}
+                <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                  <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ height: '100%', width: '20%' }}>
+                      <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
                     </View>
-     <View style={{height:'95%'}}>
+                    <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      {profile && <Text style={{
+                        color: 'white', textAlign: 'center', fontSize: 14,
+                        fontWeight: 700,
+                        color: "#ffffff",
+                        fontFamily: "Roboto",
+                      }}>{profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+
+                    </View>
+                    <View style={{ height: '100%', width: '10%' }}>
+                      <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                    </View>
+
+                  </View>
+                </View>
+                <View style={{ height: '95%' }}>
 
                   {posts &&
                     posts.map((post, key) => {
@@ -1143,7 +1243,7 @@ const PDFGenerator = ({ id, idList }) => {
                       return (
                         <View key={post.id}>
                           {leftPost && (
-                            <View style={[styles.postContainer, styles.largerHeight,styles.l]}>
+                            <View style={[styles.postContainer, styles.largerHeight, styles.l]}>
                               <View styles={styles.imageContainer}>
                                 <Image src={post.is_anonymous
                                   ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.largerProfilePic]} />
@@ -1158,7 +1258,7 @@ const PDFGenerator = ({ id, idList }) => {
                           )}
 
                           {!leftPost && (
-                            <View style={[styles.postContainer, styles.largerHeight,styles.r]}>
+                            <View style={[styles.postContainer, styles.largerHeight, styles.r]}>
                               <View style={[styles.textContainerRight, styles.largerWidth]}>
                                 <Text style={styles.content}>{post.content}</Text>
                                 <View style={{ width: "100%", position: "relative" }}>
@@ -1185,88 +1285,88 @@ const PDFGenerator = ({ id, idList }) => {
         <>
           {person.profile &&
             <Page size="A4" style={styles.page}>
-            <View style={stylesProfile.section}>
-             {/* <Image src={background} style={stylesProfile.backgroundImg} /> */}
-            
-              <View style={stylesProfile.contentContiner}>
-              <view style={stylesProfile.heading}>
-                <Image src={yb_logo} style={stylesProfile.yb_logo}/>
-                <Text style={stylesProfile.series}>SERIES</Text>
-              </view>
-              <view style={stylesProfile.contentContainer}>
-                <View style={stylesProfile.leftContainer}>
-                  {person.profile.profile_image && (
-                    <Image
-                      src={`${person.profile.profile_image}`}
-                      style={stylesProfile.leftImage}
-                    />
-                  )}
+              <View style={stylesProfile.section}>
+                {/* <Image src={background} style={stylesProfile.backgroundImg} /> */}
+
+                <View style={stylesProfile.contentContiner}>
+                  <view style={stylesProfile.heading}>
+                    <Image src={yb_logo} style={stylesProfile.yb_logo} />
+                    <Text style={stylesProfile.series}>SERIES</Text>
+                  </view>
+                  <view style={stylesProfile.contentContainer}>
+                    <View style={stylesProfile.leftContainer}>
+                      {person.profile.profile_image && (
+                        <Image
+                          src={`${person.profile.profile_image}`}
+                          style={stylesProfile.leftImage}
+                        />
+                      )}
+                    </View>
+                    <View style={stylesProfile.rightContainer}>
+                      <Text style={[stylesProfile.text, stylesProfile.nameText]}>{person.profile.name}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>Nickname: {person.profile.nickname}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.dobText]}>DoB: {person.profile.dob}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.emailText]}>Email: {person.profile.email}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.hostelText]}>Hostel: {person.profile.hostel}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.room_noText]}>Room No: {person.profile.room_no}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.departmentText]}>Department: {person.profile.department.split("&")[0]}</Text>
+                      {/* <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> */}
+                      <Text style={[stylesProfile.text, stylesProfile.degreeText]}>Degree: {person.profile.degree}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>Joining Year: {person.profile.join_year}</Text>
+                      <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>Graduation Year: {person.profile.graduation_year}</Text>
+                      {/* <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text> */}
+                      {profile.tagline && (
+                        <Text style={[stylesProfile.text, stylesProfile.taglineText]}>Tagline: {person.profile.tagline}</Text>
+                      )}
+                    </View>
+                  </view>
                 </View>
-                <View style={stylesProfile.rightContainer}>
-                  <Text style={[stylesProfile.text, stylesProfile.nameText]}>{person.profile.name}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>Nickname: {person.profile.nickname}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.dobText]}>DoB: {person.profile.dob}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.emailText]}>Email: {person.profile.email}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.hostelText]}>Hostel: {person.profile.hostel}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.room_noText]}>Room No: {person.profile.room_no}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.departmentText]}>Department: {person.profile.department.split("&")[0]}</Text>
-                  {/* <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> */}
-                  <Text style={[stylesProfile.text, stylesProfile.degreeText]}>Degree: {person.profile.degree}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>Joining Year: {person.profile.join_year}</Text>
-                  <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>Graduation Year: {person.profile.graduation_year}</Text>
-                  {/* <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text> */}
-                  {profile.tagline && (
-                    <Text style={[stylesProfile.text, stylesProfile.taglineText]}>Tagline: {person.profile.tagline}</Text>
-                  )}
+
+                <View style={stylesProfile.container}>
+                  <View style={stylesProfile.gradientBox} />
+                  <View style={stylesProfile.imageRow}>
+                    <View style={stylesProfile.imageContainer}>
+                      {profile.img1 && (
+                        <Image
+                          src={`${person.profile.img1}`}
+                          style={stylesProfile.leftImage1}
+                        />
+                      )}
+                    </View>
+                    <View style={stylesProfile.imageContainer2}>
+                      {profile.img2 && (
+                        <Image
+                          src={`${person.profile.img2}`}
+                          style={stylesProfile.leftImage1}
+                        />
+                      )}
+                    </View>
+                  </View>
+
+                  <View style={stylesProfile.imageRow}>
+                    <View style={stylesProfile.imageContainer}>
+                      {profile.img3 && (
+                        <Image
+                          src={`${person.profile.img3}`}
+                          style={stylesProfile.leftImage1}
+                        />
+                      )}
+                    </View>
+                    <View style={stylesProfile.imageContainer2}>
+                      {profile.img4 && (
+                        <Image
+                          src={`${person.profile.img4}`}
+                          style={stylesProfile.leftImage1}
+                        />
+                      )}
+                    </View>
+                  </View>
                 </View>
-              </view>  
+
+
+
               </View>
-
-              <View style={stylesProfile.container}>
-                <View style={stylesProfile.gradientBox} />
-                <View style={stylesProfile.imageRow}>
-                  <View style={stylesProfile.imageContainer}>
-                    {profile.img1 && (
-                      <Image
-                        src={`${person.profile.img1}`}
-                        style={stylesProfile.leftImage1}
-                      />
-                    )}
-                  </View>
-                  <View style={stylesProfile.imageContainer2}>
-                    {profile.img2 && (
-                      <Image
-                        src={`${person.profile.img2}`}
-                        style={stylesProfile.leftImage1}
-                      />
-                    )}
-                  </View>
-                </View>
-
-                <View style={stylesProfile.imageRow}>
-                  <View style={stylesProfile.imageContainer}>
-                    {profile.img3 && (
-                      <Image
-                        src={`${person.profile.img3}`}
-                        style={stylesProfile.leftImage1}
-                      />
-                    )}
-                  </View>
-                  <View style={stylesProfile.imageContainer2}>
-                    {profile.img4 && (
-                      <Image
-                        src={`${person.profile.img4}`}
-                        style={stylesProfile.leftImage1}
-                      />
-                    )}
-                  </View>
-                </View>
-              </View>
-
-
-
-            </View>
-          </Page>
+            </Page>
           }
 
           {person.smallerPosts && person.smallerPosts.map((posts, index) => {
@@ -1312,30 +1412,32 @@ const PDFGenerator = ({ id, idList }) => {
             return <Page size="A4" style={styles.page}>
 
 
-          <View key={index} style={styles.section}>
-            <Image src={background} style={styles.backgroundImg} />
-        
+              <View key={index} style={styles.section}>
+                <Image src={background} style={styles.backgroundImg} />
 
-            <View style={styles.container}>
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
+                <View style={styles.container}>
+                  <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                    <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                      <View style={{ height: '100%', width: '20%' }}>
+                        <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+                      <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        {profile && <Text style={{
+                          color: 'white', textAlign: 'center', fontSize: 14,
+                          fontWeight: 700,
+                          color: "#ffffff",
+                          fontFamily: "Roboto",
+                        }}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                </View>
+                      </View>
+                      <View style={{ height: '100%', width: '10%' }}>
+                        <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+
                     </View>
-     <View style={{height:'95%'}}>
+                  </View>
+                  <View style={{ height: '95%' }}>
 
                     {posts &&
                       posts.map((post, key) => {
@@ -1343,7 +1445,7 @@ const PDFGenerator = ({ id, idList }) => {
                         return (
                           <View key={post.id}>
                             {leftPost && (
-                              <View style={[styles.postContainer, styles.smallHeight,styles.l]}>
+                              <View style={[styles.postContainer, styles.smallHeight, styles.l]}>
                                 <View styles={styles.imageContainer}>
                                   <Image src={post.is_anonymous
                                     ? "https://avatars.githubusercontent.com/u/16786985?v=4" : (`https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`)} style={[styles.profilePicLeft, styles.smallProfilePic]} />
@@ -1359,7 +1461,7 @@ const PDFGenerator = ({ id, idList }) => {
                             )}
 
                             {!leftPost && (
-                              <View style={[styles.postContainer, styles.smallHeight,styles.r]}>
+                              <View style={[styles.postContainer, styles.smallHeight, styles.r]}>
                                 <View style={[styles.textContainerRight, styles.smallWidth]}>
                                   <Text style={styles.content}>{post.content}</Text>
                                   <View style={{ width: "100%", position: "relative" }}>
@@ -1392,37 +1494,39 @@ const PDFGenerator = ({ id, idList }) => {
             return <Page size="A4" style={styles.page}>
 
 
-          <View key={index} style={styles.section}>
-            <Image src={background} style={styles.backgroundImg} />
-        
+              <View key={index} style={styles.section}>
+                <Image src={background} style={styles.backgroundImg} />
 
-            <View style={styles.container}>
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
+                <View style={styles.container}>
+                  <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                    <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                      <View style={{ height: '100%', width: '20%' }}>
+                        <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+                      <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        {profile && <Text style={{
+                          color: 'white', textAlign: 'center', fontSize: 14,
+                          fontWeight: 700,
+                          color: "#ffffff",
+                          fontFamily: "Roboto",
+                        }}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                </View>
+                      </View>
+                      <View style={{ height: '100%', width: '10%' }}>
+                        <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+
                     </View>
-     <View style={{height:'95%'}}>
+                  </View>
+                  <View style={{ height: '95%' }}>
                     {posts &&
                       posts.map((post, key) => {
                         const leftPost = key % 2 === 0;
                         return (
                           <View key={post.id}>
                             {leftPost && (
-                              <View style={[styles.postContainer, styles.semiMediumHeight,styles.l]}>
+                              <View style={[styles.postContainer, styles.semiMediumHeight, styles.l]}>
                                 <View styles={styles.imageContainer}>
                                   <Image src={post.is_anonymous
                                     ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.semiMediumProfilePic]} />
@@ -1437,7 +1541,7 @@ const PDFGenerator = ({ id, idList }) => {
                             )}
 
                             {!leftPost && (
-                              <View style={[styles.postContainer, styles.semiMediumHeight,styles.r]}>
+                              <View style={[styles.postContainer, styles.semiMediumHeight, styles.r]}>
                                 <View style={[styles.textContainerRight, styles.semiMediumWidth]}>
                                   <Text style={styles.content}>{post.content}</Text>
                                   <View style={{ width: "100%", position: "relative" }}>
@@ -1471,30 +1575,32 @@ const PDFGenerator = ({ id, idList }) => {
             return <Page size="A4" style={styles.page}>
 
 
-          <View key={index} style={styles.section}>
-            <Image src={background} style={styles.backgroundImg} />
-        
+              <View key={index} style={styles.section}>
+                <Image src={background} style={styles.backgroundImg} />
 
-            <View style={styles.container}>
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
+                <View style={styles.container}>
+                  <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                    <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                      <View style={{ height: '100%', width: '20%' }}>
+                        <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+                      <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        {profile && <Text style={{
+                          color: 'white', textAlign: 'center', fontSize: 14,
+                          fontWeight: 700,
+                          color: "#ffffff",
+                          fontFamily: "Roboto",
+                        }}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                </View>
+                      </View>
+                      <View style={{ height: '100%', width: '10%' }}>
+                        <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+
                     </View>
-     <View style={{height:'95%'}}>
+                  </View>
+                  <View style={{ height: '95%' }}>
 
                     {posts &&
                       posts.map((post, key) => {
@@ -1502,7 +1608,7 @@ const PDFGenerator = ({ id, idList }) => {
                         return (
                           <View key={post.id}>
                             {leftPost && (
-                              <View style={[styles.postContainer, styles.mediumHeight,styles.l]}>
+                              <View style={[styles.postContainer, styles.mediumHeight, styles.l]}>
                                 <View styles={styles.imageContainer}>
                                   <Image src={post.is_anonymous
                                     ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.mediumProfilePic]} />
@@ -1517,7 +1623,7 @@ const PDFGenerator = ({ id, idList }) => {
                             )}
 
                             {!leftPost && (
-                              <View style={[styles.postContainer, styles.mediumHeight,styles.r]}>
+                              <View style={[styles.postContainer, styles.mediumHeight, styles.r]}>
                                 <View style={[styles.textContainerRight, styles.mediumWidth]}>
                                   <Text style={styles.content}>{post.content}</Text>
                                   <View style={{ width: "100%", position: "relative" }}>
@@ -1552,68 +1658,70 @@ const PDFGenerator = ({ id, idList }) => {
             return <Page size="A4" style={styles.page}>
 
 
-          <View key={index} style={styles.section}>
-            <Image src={background} style={styles.backgroundImg} />
-        
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
+              <View key={index} style={styles.section}>
+                <Image src={background} style={styles.backgroundImg} />
 
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-
-                </View>
+                <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                  <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ height: '100%', width: '20%' }}>
+                      <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
                     </View>
-     <View style={{height:'95%'}}>
+                    <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      {profile && <Text style={{
+                        color: 'white', textAlign: 'center', fontSize: 14,
+                        fontWeight: 700,
+                        color: "#ffffff",
+                        fontFamily: "Roboto",
+                      }}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                    {posts &&
-                      posts.map((post, key) => {
-                        const leftPost = key % 2 === 0;
-                        return (
-                          <View key={post.id}>
-                            {leftPost && (
-                              <View style={[styles.postContainer, styles.largeHeight,styles.l]}>
-                                <View styles={styles.imageContainer}>
-                                  <Image src={post.is_anonymous
-                                    ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.largeProfilePic]} />
-                                </View>
-                                <View style={[styles.textContainer, styles.largeWidth]}>
-                                  <Text style={styles.content}>{post.content}</Text>
-                                  <View style={{ width: "100%", position: "relative" }}>
-                                    <Text style={[{ color: "white" }, styles.smallProfileText]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
-                                  </View>
-                                </View>
-                              </View>
-                            )}
+                    </View>
+                    <View style={{ height: '100%', width: '10%' }}>
+                      <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                    </View>
 
-                            {!leftPost && (
-                              <View style={[styles.postContainer, styles.largeHeight,styles.r]}>
-                                <View style={[styles.textContainerRight, styles.largeWidth]}>
-                                  <Text style={styles.content}>{post.content}</Text>
-                                  <View style={{ width: "100%", position: "relative" }}>
-                                    <Text style={[{ color: "white" }, styles.smallProfileTextr]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
-                                  </View>
-                                </View>
-                                <View styles={styles.imageContainerRight}>
-                                  <Image src={post.is_anonymous
-                                    ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicRight, styles.largeProfilePic]} />
-                                </View>
-                              </View>
-                            )}
-                          </View>
-                        );
-                      })}
                   </View>
                 </View>
+                <View style={{ height: '95%' }}>
+
+                  {posts &&
+                    posts.map((post, key) => {
+                      const leftPost = key % 2 === 0;
+                      return (
+                        <View key={post.id}>
+                          {leftPost && (
+                            <View style={[styles.postContainer, styles.largeHeight, styles.l]}>
+                              <View styles={styles.imageContainer}>
+                                <Image src={post.is_anonymous
+                                  ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.largeProfilePic]} />
+                              </View>
+                              <View style={[styles.textContainer, styles.largeWidth]}>
+                                <Text style={styles.content}>{post.content}</Text>
+                                <View style={{ width: "100%", position: "relative" }}>
+                                  <Text style={[{ color: "white" }, styles.smallProfileText]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
+                                </View>
+                              </View>
+                            </View>
+                          )}
+
+                          {!leftPost && (
+                            <View style={[styles.postContainer, styles.largeHeight, styles.r]}>
+                              <View style={[styles.textContainerRight, styles.largeWidth]}>
+                                <Text style={styles.content}>{post.content}</Text>
+                                <View style={{ width: "100%", position: "relative" }}>
+                                  <Text style={[{ color: "white" }, styles.smallProfileTextr]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
+                                </View>
+                              </View>
+                              <View styles={styles.imageContainerRight}>
+                                <Image src={post.is_anonymous
+                                  ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicRight, styles.largeProfilePic]} />
+                              </View>
+                            </View>
+                          )}
+                        </View>
+                      );
+                    })}
+                </View>
+              </View>
               {/* </View> */}
             </Page>
           })}
@@ -1632,30 +1740,32 @@ const PDFGenerator = ({ id, idList }) => {
             return <Page size="A4" style={styles.page}>
 
 
-          <View key={index} style={styles.section}>
-            <Image src={background} style={styles.backgroundImg} />
-        
+              <View key={index} style={styles.section}>
+                <Image src={background} style={styles.backgroundImg} />
 
-            <View style={styles.container}>
-            <View style={{height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto'}}>
-                <View style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',flexDirection:'row'}}>
-                  <View style={{height:'100%',width:'20%'}}>
-                    <Image src={logooo}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
-                  <View style={{height:'100%',width:'70%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  {profile && <Text style={{color: 'white', textAlign: 'center',fontSize: 14,
-    fontWeight: 700,
-    color: "#ffffff",
-    fontFamily: "Roboto",}}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                  </View>
-                  <View style={{height:'100%',width:'10%'}}>
-                    <Image src={side}  style={{maxWidth: '100%', maxHeight: '100%', objectFit: 'contain'}}></Image>
-                  </View>
+                <View style={styles.container}>
+                  <View style={{ height: "5%", width: '100%', margin: '0', padding: '0', flexShrink: 0, flexGrow: 0, flexBasis: 'auto' }}>
+                    <View style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                      <View style={{ height: '100%', width: '20%' }}>
+                        <Image src={logooo} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+                      <View style={{ height: '100%', width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        {profile && <Text style={{
+                          color: 'white', textAlign: 'center', fontSize: 14,
+                          fontWeight: 700,
+                          color: "#ffffff",
+                          fontFamily: "Roboto",
+                        }}>{person.profile.name.split(' ')[0].toUpperCase()}'S COLLEGE LIFE, FEATURING:</Text>}
 
-                </View>
+                      </View>
+                      <View style={{ height: '100%', width: '10%' }}>
+                        <Image src={side} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}></Image>
+                      </View>
+
                     </View>
-     <View style={{height:'95%'}}>
+                  </View>
+                  <View style={{ height: '95%' }}>
 
                     {posts &&
                       posts.map((post, key) => {
@@ -1663,7 +1773,7 @@ const PDFGenerator = ({ id, idList }) => {
                         return (
                           <View key={post.id}>
                             {leftPost && (
-                              <View style={[styles.postContainer, styles.largerHeight,styles.l]}>
+                              <View style={[styles.postContainer, styles.largerHeight, styles.l]}>
                                 <View styles={styles.imageContainer}>
                                   <Image src={post.is_anonymous
                                     ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicLeft, styles.largerProfilePic]} />
@@ -1678,7 +1788,7 @@ const PDFGenerator = ({ id, idList }) => {
                             )}
 
                             {!leftPost && (
-                              <View style={[styles.postContainer, styles.largerHeight,styles.r]}>
+                              <View style={[styles.postContainer, styles.largerHeight, styles.r]}>
                                 <View style={[styles.textContainerRight, styles.largerWidth]}>
                                   <Text style={styles.content}>{post.content}</Text>
                                   <View style={{ width: "100%", position: "relative" }}>
@@ -1707,18 +1817,36 @@ const PDFGenerator = ({ id, idList }) => {
       {true && <>
         <Page size="A4" style={stylesSigningOff.page}>
           <View style={stylesSigningOff.section}>
-            <Image src={writeForYourself} style={stylesSigningOff.backgroundImg} />
+            <Image src={back1} style={stylesSigningOff.backgroundImg} />
+          </View>
+        </Page>
+
+        <Page size="A4" style={stylesSigningOff.page}>
+          <View style={stylesSigningOff.section}>
+            <Image src={back2} style={stylesSigningOff.backgroundImg} />
+          </View>
+        </Page>
+
+        <Page size="A4" style={stylesSigningOff.page}>
+          <View style={stylesSigningOff.section}>
+            <Image src={back3} style={stylesSigningOff.backgroundImg} />
+          </View>
+        </Page>
+
+        <Page size="A4" style={stylesSigningOff.page}>
+          <View style={stylesSigningOff.section}>
+            <Image src={back4} style={stylesSigningOff.backgroundImg} />
+          </View>
+        </Page>
+
+        <Page size="A4" style={stylesSigningOff.page}>
+          <View style={stylesSigningOff.section}>
+            <Image src={back5} style={stylesSigningOff.backgroundImg} />
           </View>
         </Page>
 
 
-        {profile && <Page size="A4" style={stylesSigningOff.page}>
-          <View style={stylesSigningOff.section}>
-            <Image src={signingOff} style={stylesSigningOff.backgroundImg} />
-            <Text style={stylesSigningOff.text}>{profile.name}</Text>
-            <Text style={stylesSigningOff.rollno}>{profile.email.split("@")[0]}</Text>
-          </View>
-        </Page>}</>}
+      </>}
 
 
 

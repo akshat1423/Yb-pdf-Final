@@ -237,7 +237,7 @@ export const styles = StyleSheet.create({
   },
 
   mediumWidth: {
-    width: "78%",
+    width: "85%",
   },
 
   largeHeight: {
@@ -249,7 +249,7 @@ export const styles = StyleSheet.create({
   },
 
   largeWidth: {
-    width: "71%",
+    width: "85%",
   },
 
   largerHeight: {
@@ -257,7 +257,7 @@ export const styles = StyleSheet.create({
   },
 
   largerWidth: {
-    width: "70%",
+    width: "85%",
   },
 
   textContainer: {
@@ -266,6 +266,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     marginLeft: 10,
+    
   },
 
 
@@ -380,8 +381,8 @@ export const styles = StyleSheet.create({
     // fontStyle: "italic",
     // marginBottm: 10,
     // right: 0,
-    position: 'relative',
-    left: '75%',
+    // position: 'relative',
+    // left: '75%',
     fontSize: 10,
     fontFamily: "Comic",
     fontWeight: 700,

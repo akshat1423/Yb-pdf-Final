@@ -8,26 +8,24 @@ import {
 import PDFGenerator from "./Pages/PDFGenerator";
 
 const App = () => {
-  const idList = [14]; // Replace this with your actual list of ids
+  const idList = [6828]; // Replace this with your actual list of ids
 
-  const ids = [[ 
-    1745,81
-  ]];
+  const ids = [];
   const downloadAnchorRef = useRef(null);
   const [readyToDownload, setReadyToDownload] = useState(false);
-  useEffect(() => {
-    const generatePDFs = async () => {
-      for (const id of idList) {
-        // Simulate the asynchronous PDF generation process with a timeout
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        // Actual PDF generation logic can be placed here
-      }
-      setReadyToDownload(true);
-      download()
-    };
+  // useEffect(() => {
+  //   const generatePDFs = async () => {
+  //     for (const id of idList) {
+  //       // Simulate the asynchronous PDF generation process with a timeout
+  //       await new Promise((resolve) => setTimeout(resolve, 5000));
+  //       // Actual PDF generation logic can be placed here
+  //     }
+  //     setReadyToDownload(true);
+  //     download()
+  //   };
 
-    generatePDFs();
-  }, []);
+  //   generatePDFs();
+  // }, []);
 
   function download(){
     const downloadLinks = downloadAnchorRef.current.querySelectorAll('a');
@@ -36,7 +34,7 @@ const App = () => {
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>
-      <div ref={downloadAnchorRef}>
+      {/* <div ref={downloadAnchorRef}>
           {idList.map((entry, index) => (
             <PDFDownloadLink
               key={entry}
@@ -46,12 +44,13 @@ const App = () => {
               {({ loading }) => (loading ? 'Loading document...' : `Yearbook(${entry})`)}
             </PDFDownloadLink>
           ))}
-        </div>
+        </div> */}
       {idList.map((entry, index) => (
         <PDFViewer key={entry} style={{ width: "100%", height: "100%" }}>
           <PDFGenerator id={entry} idList={ids[index]} />
         </PDFViewer>
       ))}
+      
     </div>
   );
 };
