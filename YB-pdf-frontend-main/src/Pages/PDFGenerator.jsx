@@ -27,6 +27,7 @@ import yb_logo from './assets/yb_logo.png';
 import logooo from './assets/logooo.png';
 import side from './assets/side2.png';
 import bg from './assets/bg.png';
+import FranklinGothicMedium from './Fonts/Franklin Gothic Medium Regular/Franklin Gothic Medium Regular.ttf';
 import { PDFDocument } from 'pdf-lib';
 
 
@@ -63,6 +64,7 @@ Font.register({
 Font.register({ family: 'Lobster', src: fontFile });
 Font.register({ family:'bebasneue',src:bebasneue});
 Font.register({ family:'myriad',src:myriad});
+Font.register({ family:'FranklinGothicMedium',src:FranklinGothicMedium});
 
 Font.registerEmojiSource({
   format: 'png',
@@ -426,11 +428,11 @@ const PDFGenerator = ({ id, idList }) => {
               zerothSet.push(post);
             }
 
-            else if ((post.content.length >= 2000) && (post.content.length < 1700)) {
+            else if ((post.content.length >= 1200) && (post.content.length < 1700)) {
               firstSet.push(post)
             }
 
-            else if ((post.content.length >= 800) && (post.content.length < 2000)) {
+            else if ((post.content.length >= 800) && (post.content.length < 1200)) {
               secondSet.push(post)
             }
 
@@ -704,18 +706,78 @@ const PDFGenerator = ({ id, idList }) => {
                 )}
               </View>
               <View style={stylesProfile.rightContainer}>
-                <Text style={[stylesProfile.text, stylesProfile.nameText]}>{profile.name}</Text>
+                {/* <Text style={[stylesProfile.text, stylesProfile.nameText]}>{profile.name}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>Nickname: {profile.nickname}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.dobText]}>DoB: {profile.dob}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.emailText]}>Email: {profile.email}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.hostelText]}>Hostel: {profile.hostel}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.room_noText]}>Room No: {profile.room_no}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.departmentText]}>Department: {profile.department.split("&")[0]}</Text>
-                {/* <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> */}
+                 <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> 
                 <Text style={[stylesProfile.text, stylesProfile.degreeText]}>Degree: {profile.degree}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>Joining Year: {profile.join_year}</Text>
                 <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>Graduation Year: {profile.graduation_year}</Text>
-                {/* <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text> */}
+                <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text>  */}
+                {profile.name && (
+  <Text style={[stylesProfile.text, stylesProfile.nameText]}>{profile.name}</Text>
+)}
+{profile.nickname && (
+  <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>
+    Nickname: {profile.nickname}
+  </Text>
+)}
+
+{profile.dob && (
+  <Text style={[stylesProfile.text, stylesProfile.dobText]}>
+    DoB: {profile.dob}
+  </Text>
+)}
+{profile.email && (
+  <Text style={[stylesProfile.text, stylesProfile.emailText]}>
+    Email: {profile.email}
+  </Text>
+)}
+{profile.hostel && (
+  <Text style={[stylesProfile.text, stylesProfile.hostelText]}>
+    Hostel: {profile.hostel}
+  </Text>
+)}
+{profile.room_no && (
+  <Text style={[stylesProfile.text, stylesProfile.room_noText]}>
+    Room No: {profile.room_no}
+  </Text>
+)}
+{profile.department && (
+  <Text style={[stylesProfile.text, stylesProfile.departmentText]}>
+    Department: {profile.department.split("&")[0]}
+  </Text>
+)}
+{profile.program && (
+  <Text style={[stylesProfile.text, stylesProfile.programText]}>
+    Program: {profile.program}
+  </Text>
+)}
+{profile.degree && (
+  <Text style={[stylesProfile.text, stylesProfile.degreeText]}>
+    Degree: {profile.degree}
+  </Text>
+)}
+{profile.join_year && (
+  <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>
+    Joining Year: {profile.join_year}
+  </Text>
+)}
+{profile.graduation_year && (
+  <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>
+    Graduation Year: {profile.graduation_year}
+  </Text>
+)}
+{profile.career && (
+  <Text style={[stylesProfile.text, stylesProfile.careerText]}>
+    Career: {profile.career}
+  </Text>
+)}
+
                 {profile.tagline && (
                   <Text style={[stylesProfile.text, stylesProfile.taglineText]}>Tagline: {profile.tagline}</Text>
                 )}
@@ -1195,7 +1257,7 @@ const PDFGenerator = ({ id, idList }) => {
           {person.profile &&
             <Page size="A4" style={styles.page}>
             <View style={stylesProfile.section}>
-             {/* <Image src={background} style={stylesProfile.backgroundImg} /> */}
+             <Image src={bg} style={stylesProfile.backgroundImg} /> 
             
               <View style={stylesProfile.contentContiner}>
               <view style={stylesProfile.heading}>
@@ -1212,21 +1274,82 @@ const PDFGenerator = ({ id, idList }) => {
                   )}
                 </View>
                 <View style={stylesProfile.rightContainer}>
-                  <Text style={[stylesProfile.text, stylesProfile.nameText]}>{person.profile.name}</Text>
+                  {/* <Text style={[stylesProfile.text, stylesProfile.nameText]}>{person.profile.name}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>Nickname: {person.profile.nickname}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.dobText]}>DoB: {person.profile.dob}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.emailText]}>Email: {person.profile.email}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.hostelText]}>Hostel: {person.profile.hostel}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.room_noText]}>Room No: {person.profile.room_no}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.departmentText]}>Department: {person.profile.department.split("&")[0]}</Text>
-                  {/* <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> */}
+                   <Text style={[stylesProfile.text, stylesProfile.programText]}>Program: {profile.program}</Text> 
                   <Text style={[stylesProfile.text, stylesProfile.degreeText]}>Degree: {person.profile.degree}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>Joining Year: {person.profile.join_year}</Text>
                   <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>Graduation Year: {person.profile.graduation_year}</Text>
-                  {/* <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text> */}
-                  {profile.tagline && (
-                    <Text style={[stylesProfile.text, stylesProfile.taglineText]}>Tagline: {person.profile.tagline}</Text>
-                  )}
+                   <Text style={[stylesProfile.text, stylesProfile.careerText]}>Career: {profile.career}</Text>  */}
+                   {person.profile.name && (
+  <Text style={[stylesProfile.text, stylesProfile.nameText]}>{person.profile.name}</Text>
+)}
+{person.profile.nickname && (
+  <Text style={[stylesProfile.text, stylesProfile.nicknameText]}>
+    Nickname: {person.profile.nickname}
+  </Text>
+)}
+
+{person.profile.dob && (
+  <Text style={[stylesProfile.text, stylesProfile.dobText]}>
+    DoB: {person.profile.dob}
+  </Text>
+)}
+{person.profile.email && (
+  <Text style={[stylesProfile.text, stylesProfile.emailText]}>
+    Email: {person.profile.email}
+  </Text>
+)}
+{person.profile.hostel && (
+  <Text style={[stylesProfile.text, stylesProfile.hostelText]}>
+    Hostel: {person.profile.hostel}
+  </Text>
+)}
+{person.profile.room_no && (
+  <Text style={[stylesProfile.text, stylesProfile.room_noText]}>
+    Room No: {person.profile.room_no}
+  </Text>
+)}
+{person.profile.department && (
+  <Text style={[stylesProfile.text, stylesProfile.departmentText]}>
+    Department: {person.profile.department.split("&")[0]}
+  </Text>
+)}
+{person.profile.program && (
+  <Text style={[stylesProfile.text, stylesProfile.programText]}>
+    Program: {person.profile.program}
+  </Text>
+)}
+{person.profile.degree && (
+  <Text style={[stylesProfile.text, stylesProfile.degreeText]}>
+    Degree: {person.profile.degree}
+  </Text>
+)}
+{person.profile.join_year && (
+  <Text style={[stylesProfile.text, stylesProfile.join_yearText]}>
+    Joining Year: {person.profile.join_year}
+  </Text>
+)}
+{person.profile.graduation_year && (
+  <Text style={[stylesProfile.text, stylesProfile.graduation_yearText]}>
+    Graduation Year: {person.profile.graduation_year}
+  </Text>
+)}
+{person.profile.career && (
+  <Text style={[stylesProfile.text, stylesProfile.careerText]}>
+    Career: {person.profile.career}
+  </Text>
+)}
+
+                {person.profile.tagline && (
+                  <Text style={[stylesProfile.text, stylesProfile.taglineText]}>Tagline: {person.profile.tagline}</Text>
+                )}
+                
                 </View>
               </view>  
               </View>

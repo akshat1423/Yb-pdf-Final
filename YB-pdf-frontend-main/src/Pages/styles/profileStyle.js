@@ -12,6 +12,7 @@ export const stylesProfile = StyleSheet.create({
     height: '100%',
     opacity: 1, // Adjust the opacity value as needed
   },
+  
   section: {
     // position: "relative",
     zIndex: 1,
@@ -53,14 +54,15 @@ export const stylesProfile = StyleSheet.create({
   leftImage: {
     width: '230px',
     height: '230px',
-    borderRadius: '0%',
-    borderStyle: 'solid',
-    borderWidth: 6,
-    borderColor: 'white',
+    // borderRadius: '0%',
+    // borderStyle: 'solid',
+    // borderWidth: 6,
+    // borderColor: 'gray',
     padding: 6,
     objectFit: 'cover',
   },
   series:{
+    fontFamily:'FranklinGothicMedium',
     color:'white',
     fontSize:24,
     marginTop:'10px',
@@ -136,23 +138,23 @@ export const stylesProfile = StyleSheet.create({
   },
   degreeText: {
     textAlign: 'justify',
-    marginTop: '56mm',
+    marginTop: '62mm',
   },
   join_yearText: {
     textAlign: 'justify',
-    marginTop: '62mm',
+    marginTop: '68mm',
   },
   graduation_yearText: {
     textAlign: 'justify',
-    marginTop: '68mm',
+    marginTop: '74mm',
   },
   careerText: {
     textAlign: 'justify',
-    marginTop: '74mm',
+    marginTop: '80mm',
   },
   taglineText: {
     textAlign: 'justify',
-    marginTop: '74mm',
+    marginTop: '86mm',
     lineHeight: '1'
   },
   topImageContainer: {
@@ -229,7 +231,7 @@ export const stylesProfile = StyleSheet.create({
   },
 
   yb_logo:{
-    width: '30px',
+    width: '20px',
     height: '30px',
     marginLeft:'50px',
     marginTop:'10px'
