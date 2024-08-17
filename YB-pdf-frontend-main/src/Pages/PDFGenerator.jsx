@@ -391,221 +391,229 @@ const PDFGenerator = ({ id, idList }) => {
           // const newResponse = await axios.post("http://localhost:8000/api/feed", postData)
           // const newResponseData = newResponse.data;
 
-          let zerothSet = [];
-          let firstSet = [];
-          let secondSet = [];
-          let thirdSet = [];
-          let fourthSet = [];
-          let fifthSet = [];
+          let zerothSet = []
+        let firstSet = []
+        let secondSet = []
+        let thirdSet = []
+        let fourthSet = []
+        let fifthSet = []
 
-          const zerothSetFinal = [];
-          const firstSetFinal = [];
-          const secondSetFinal = [];
-          const thirdSetFinal = [];
-          const fourthSetFinal = [];
-          const fifthSetFinal = [];
 
-          responseData.forEach((post) => {
-            post.content = removeLineBreaks(post.content);
 
-            if (post.content.length >= 1700) {
-              zerothSet.push(post);
-            } else if (
-              post.content.length >= 2000 &&
-              post.content.length < 1700
-            ) {
-              firstSet.push(post);
-            } else if (
-              post.content.length >= 800 &&
-              post.content.length < 2000
-            ) {
-              secondSet.push(post);
-            } else if (
-              post.content.length < 800 &&
-              post.content.length >= 300
-            ) {
-              thirdSet.push(post);
-            } else {
-              fourthSet.push(post);
-            }
+        const zerothSetFinal = []
+        const firstSetFinal = []
+        const secondSetFinal = []
+        const thirdSetFinal = []
+        const fourthSetFinal = []
+        const fifthSetFinal = []
 
-            // else {
-            //   fifthSet.push(post)
-            // }
-          });
 
-          function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [array[i], array[j]] = [array[j], array[i]];
+        responseData.forEach((post) => {
+
+          post.content = removeLineBreaks(post.content);
+
+          if (post.content.length >= 1700) {
+            zerothSet.push(post);
+          }
+
+          else if ((post.content.length >= 1400) && (post.content.length < 1700)) {
+            firstSet.push(post)
+          }
+
+          else if ((post.content.length >= 800) && (post.content.length < 1400)) {
+            secondSet.push(post)
+          }
+
+          else if ((post.content.length < 800) && (post.content.length >= 300)) {
+            thirdSet.push(post)
+          }
+
+          else {
+            fourthSet.push(post)
+          }
+
+          // else {
+          //   fifthSet.push(post)
+          // }
+
+        })
+
+
+        function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+        }
+
+
+        function sortWithPattern(arr, length) {
+          // Separate big and small numbers
+          const bigPosts = arr.filter((post) => post.content.length > length / 2);
+          const smallPosts = arr.filter((post) => post.content.length <= length / 2);
+
+          // Shuffle big and small number arrays
+          shuffleArray(bigPosts);
+          shuffleArray(smallPosts);
+
+          const result = [];
+
+          // Interleave the elements from both arrays
+          for (let i = 0; i < Math.max(bigPosts.length, smallPosts.length); i++) {
+            if (bigPosts[i]) result.push(bigPosts[i]);
+            if (smallPosts[i]) result.push(smallPosts[i]);
+          }
+
+          return result;
+        }
+
+
+
+        if (fifthSet.length > 0) {
+
+          fifthSet.sort((a, b) => a.content.length - b.content.length);
+
+
+          let leftPosts = fifthSet.length % 12
+
+          if (leftPosts !== 0 && (fourthSet.length !== 0 || thirdSet.length !== 0 || secondSet.length !== 0 || firstSet.length !== 0 || zerothSet.length !== 0)) {
+            for (let i = 0; i < leftPosts; i += 1) {
+              fourthSet.push(fifthSet.pop(fifthSet[i]))
             }
           }
 
-          function sortWithPattern(arr, length) {
-            // Separate big and small numbers
-            const bigPosts = arr.filter(
-              (post) => post.content.length > length / 2
-            );
-            const smallPosts = arr.filter(
-              (post) => post.content.length <= length / 2
-            );
 
-            // Shuffle big and small number arrays
-            shuffleArray(bigPosts);
-            shuffleArray(smallPosts);
+          shuffleArray(fifthSet);
 
-            const result = [];
+          fifthSet = sortWithPattern(fifthSet, 300);
 
-            // Interleave the elements from both arrays
-            for (
-              let i = 0;
-              i < Math.max(bigPosts.length, smallPosts.length);
-              i++
-            ) {
-              if (bigPosts[i]) result.push(bigPosts[i]);
-              if (smallPosts[i]) result.push(smallPosts[i]);
+
+
+
+          for (let i = 0; i < fifthSet.length; i += 12) {
+            let chunk = fifthSet.slice(i, i + 12);
+            let temp = []
+
+            for (let j = 0; j < chunk.length; j += 2) {
+              let chunk2 = chunk.slice(j, j + 2)
+              temp.push(chunk2)
             }
 
-            return result;
+            fifthSetFinal.push(temp);
           }
 
-          if (fifthSet.length > 0) {
-            fifthSet.sort((a, b) => a.content.length - b.content.length);
+        }
 
-            let leftPosts = fifthSet.length % 12;
 
-            if (
-              leftPosts !== 0 &&
-              (fourthSet.length !== 0 ||
-                thirdSet.length !== 0 ||
-                secondSet.length !== 0 ||
-                firstSet.length !== 0 ||
-                zerothSet.length !== 0)
-            ) {
-              for (let i = 0; i < leftPosts; i += 1) {
-                fourthSet.push(fifthSet.pop(fifthSet[i]));
-              }
-            }
 
-            shuffleArray(fifthSet);
 
-            fifthSet = sortWithPattern(fifthSet, 300);
+        if (fourthSet.length > 0) {
 
-            for (let i = 0; i < fifthSet.length; i += 12) {
-              let chunk = fifthSet.slice(i, i + 12);
-              let temp = [];
+          fourthSet.sort((a, b) => a.content.length - b.content.length);
 
-              for (let j = 0; j < chunk.length; j += 2) {
-                let chunk2 = chunk.slice(j, j + 2);
-                temp.push(chunk2);
-              }
+          let leftPosts = fourthSet.length % 11
 
-              fifthSetFinal.push(temp);
+          if (leftPosts !== 0 && (thirdSet.length !== 0 || secondSet.length !== 0 || firstSet.length !== 0 || zerothSet.length !== 0)) {
+            for (let i = 0; i < leftPosts; i += 1) {
+              thirdSet.push(fourthSet.pop(fourthSet[i]))
             }
           }
 
-          if (fourthSet.length > 0) {
-            fourthSet.sort((a, b) => a.content.length - b.content.length);
+          shuffleArray(fourthSet);
 
-            let leftPosts = fourthSet.length % 11;
+          fourthSet = sortWithPattern(fourthSet, 300);
 
-            if (
-              leftPosts !== 0 &&
-              (thirdSet.length !== 0 ||
-                secondSet.length !== 0 ||
-                firstSet.length !== 0 ||
-                zerothSet.length !== 0)
-            ) {
-              for (let i = 0; i < leftPosts; i += 1) {
-                thirdSet.push(fourthSet.pop(fourthSet[i]));
-              }
-            }
 
-            shuffleArray(fourthSet);
+          for (let i = 0; i < fourthSet.length; i += 11) {
+            let chunk = fourthSet.slice(i, i + 11);
+            fourthSetFinal.push(chunk);
+          }
 
-            fourthSet = sortWithPattern(fourthSet, 300);
+        }
 
-            for (let i = 0; i < fourthSet.length; i += 11) {
-              let chunk = fourthSet.slice(i, i + 11);
-              fourthSetFinal.push(chunk);
+
+
+
+        if (thirdSet.length > 0) {
+
+          thirdSet.sort((a, b) => a.content.length - b.content.length);
+
+          let leftPosts = thirdSet.length % 9
+
+          if (leftPosts !== 0 && (secondSet.length !== 0 || firstSet.length !== 0 || zerothSet.length !== 0)) {
+            for (let i = 0; i < leftPosts; i += 1) {
+              secondSet.push(thirdSet.pop(thirdSet[i]))
             }
           }
 
-          if (thirdSet.length > 0) {
-            thirdSet.sort((a, b) => a.content.length - b.content.length);
+          shuffleArray(thirdSet);
 
-            let leftPosts = thirdSet.length % 9;
+          thirdSet = sortWithPattern(thirdSet, 1000);
 
-            if (
-              leftPosts !== 0 &&
-              (secondSet.length !== 0 ||
-                firstSet.length !== 0 ||
-                zerothSet.length !== 0)
-            ) {
-              for (let i = 0; i < leftPosts; i += 1) {
-                secondSet.push(thirdSet.pop(thirdSet[i]));
-              }
-            }
+          for (let i = 0; i < thirdSet.length; i += 9) {
+            let chunk = thirdSet.slice(i, i + 9);
+            thirdSetFinal.push(chunk);
+          }
 
-            shuffleArray(thirdSet);
+        }
 
-            thirdSet = sortWithPattern(thirdSet, 1000);
 
-            for (let i = 0; i < thirdSet.length; i += 9) {
-              let chunk = thirdSet.slice(i, i + 9);
-              thirdSetFinal.push(chunk);
+        if (secondSet.length > 0) {
+
+          secondSet.sort((a, b) => a.content.length - b.content.length);
+
+          let leftPosts = secondSet.length % 7
+
+          if (leftPosts !== 0 && (firstSet.length !== 0 || zerothSet.length !== 0)) {
+            for (let i = 0; i < leftPosts; i += 1) {
+              firstSet.push(secondSet.pop(secondSet[i]))
             }
           }
 
-          if (secondSet.length > 0) {
-            secondSet.sort((a, b) => a.content.length - b.content.length);
+          shuffleArray(secondSet)
+          secondSet = sortWithPattern(secondSet, 2200);
 
-            let leftPosts = secondSet.length % 7;
 
-            if (
-              leftPosts !== 0 &&
-              (firstSet.length !== 0 || zerothSet.length !== 0)
-            ) {
-              for (let i = 0; i < leftPosts; i += 1) {
-                firstSet.push(secondSet.pop(secondSet[i]));
-              }
-            }
+          for (let i = 0; i < secondSet.length; i += 7) {
+            let chunk = secondSet.slice(i, i + 7);
+            secondSetFinal.push(chunk);
+          }
 
-            shuffleArray(secondSet);
-            secondSet = sortWithPattern(secondSet, 2200);
+        }
 
-            for (let i = 0; i < secondSet.length; i += 7) {
-              let chunk = secondSet.slice(i, i + 7);
-              secondSetFinal.push(chunk);
+
+
+        if (firstSet.length > 0) {
+
+          firstSet.sort((a, b) => a.content.length - b.content.length);
+
+          let leftPosts = firstSet.length % 5;
+
+          if (leftPosts !== 0 && zerothSet.length !== 0) {
+            for (let i = 0; i < leftPosts; i += 1) {
+              zerothSet.push(firstSet.pop(firstSet[i]))
             }
           }
 
-          if (firstSet.length > 0) {
-            firstSet.sort((a, b) => a.content.length - b.content.length);
 
-            let leftPosts = firstSet.length % 5;
+          shuffleArray(firstSet)
+          firstSet = sortWithPattern(firstSet, 3000);
 
-            if (leftPosts !== 0 && zerothSet.length !== 0) {
-              for (let i = 0; i < leftPosts; i += 1) {
-                zerothSet.push(firstSet.pop(firstSet[i]));
-              }
-            }
-
-            shuffleArray(firstSet);
-            firstSet = sortWithPattern(firstSet, 3000);
-
-            for (let i = 0; i < firstSet.length; i += 5) {
-              let chunk = firstSet.slice(i, i + 5);
-              firstSetFinal.push(chunk);
-            }
+          for (let i = 0; i < firstSet.length; i += 5) {
+            let chunk = firstSet.slice(i, i + 5);
+            firstSetFinal.push(chunk);
           }
 
-          if (zerothSet.length > 0) {
-            for (let i = 0; i < zerothSet.length; i += 3) {
-              let chunk = zerothSet.slice(i, i + 3);
-              zerothSetFinal.push(chunk);
-            }
+
+        }
+
+
+        if (zerothSet.length > 0) {
+          for (let i = 0; i < zerothSet.length; i += 2) {
+            let chunk = zerothSet.slice(i, i + 2)
+            zerothSetFinal.push(chunk);
           }
+        }
 
           // setLargerPosts(zerothSetFinal)
           // setLargePosts(firstSetFinal)
@@ -2177,8 +2185,7 @@ const PDFGenerator = ({ id, idList }) => {
         )}
 
 
-{smallerPosts &&
-          smallerPosts.map((posts, index) => {
+{person.smallerPosts && person.smallerPosts.map((posts, index) => {
             return (
               <Page size="A4" style={styles.page}>
                 <View key={index} style={styles.section}>
@@ -2251,9 +2258,7 @@ const PDFGenerator = ({ id, idList }) => {
             );
           })}
 
-        {smallPosts &&
-          smallPosts.length !== 0 &&
-          smallPosts.map((posts, index) => {
+{person.smallPosts && person.smallPosts.length !== 0 && person.smallPosts.map((posts, index) => {
             let color = ["white"];
 
             function randomColor() {
@@ -2424,9 +2429,8 @@ const PDFGenerator = ({ id, idList }) => {
             );
           })}
 
-        {semiMediumPosts &&
-          semiMediumPosts.length !== 0 &&
-          semiMediumPosts.map((posts, index) => {
+       
+{person.semiMediumPosts && person.semiMediumPosts.length !== 0 && person.semiMediumPosts.map((posts, index) => {
             let color = ["#9A2617", "#865dff", "#C2571A"];
 
             function randomColor() {
@@ -2642,9 +2646,7 @@ const PDFGenerator = ({ id, idList }) => {
             );
           })}
 
-        {mediumPosts &&
-          mediumPosts.length !== 0 &&
-          mediumPosts.map((posts, index) => {
+{person.mediumPosts && person.mediumPosts.length !== 0 && person.mediumPosts.map((posts, index) => {
             let color = ["#9A2617", "#865dff", "#C2571A"];
 
             function randomColor() {
@@ -2860,9 +2862,7 @@ const PDFGenerator = ({ id, idList }) => {
             );
           })}
 
-        {largePosts &&
-          largePosts.length !== 0 &&
-          largePosts.map((posts, index) => {
+{person.largePosts && person.largePosts.length !== 0 && person.largePosts.map((posts, index) => {
             let color = ["#9A2617", "#865dff", "#C2571A"];
 
             function randomColor() {
@@ -3077,9 +3077,7 @@ const PDFGenerator = ({ id, idList }) => {
             );
           })}
 
-        {largerPosts &&
-          largerPosts.length !== 0 &&
-          largerPosts.map((posts, index) => {
+{person.largerPosts && person.largerPosts.length !== 0 && person.largerPosts.map((posts, index) => {
             let color = ["#9A2617", "#865dff", "#C2571A"];
 
             function randomColor() {
