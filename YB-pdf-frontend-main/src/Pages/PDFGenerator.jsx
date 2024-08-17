@@ -133,7 +133,7 @@ const PDFGenerator = ({ id, idList }) => {
         console.log(profileData);
 
         const newProfileResponse = await axios.post(
-          "http://localhost:8000/api/profile",
+          "https://yearbook-rendering.sarc-iitb.org/api/profile",
           profileData
         );
 
@@ -386,7 +386,7 @@ const PDFGenerator = ({ id, idList }) => {
           const profileData = { profiles: [profile] };
 
           const newProfileResponse = await axios.post(
-            "http://localhost:8000/api/profile",
+            "https://yearbook-rendering.sarc-iitb.org/api/profile",
             profileData
           );
 
