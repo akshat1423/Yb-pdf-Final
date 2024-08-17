@@ -60,8 +60,8 @@ Font.register({ family: "bebasneue", src: bebasneue });
 Font.register({ family: "myriad", src: myriad });
 
 Font.registerEmojiSource({
-  format: "png",
-  url: "https://twemoji.maxcdn.com/2/72x72/",
+  format: 'png',
+  url: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/",
 });
 
 Font.register({ family: "LobsterFont", src: lobster });
@@ -144,17 +144,22 @@ const PDFGenerator = ({ id, idList }) => {
 
           if (post.content.length >= 1700) {
             zerothSet.push(post);
-          } else if (
-            post.content.length >= 1200 &&
-            post.content.length < 1700
-          ) {
-            firstSet.push(post);
-          } else if (post.content.length >= 800 && post.content.length < 1200) {
-            secondSet.push(post);
-          } else if (post.content.length < 800 && post.content.length >= 300) {
-            thirdSet.push(post);
-          } else {
-            fourthSet.push(post);
+          }
+
+          else if ((post.content.length >= 1000) && (post.content.length < 1700)) {
+            firstSet.push(post)
+          }
+
+          else if ((post.content.length >= 800) && (post.content.length < 1000)) {
+            secondSet.push(post)
+          }
+
+          else if ((post.content.length < 800) && (post.content.length >= 300)) {
+            thirdSet.push(post)
+          }
+
+          else {
+            fourthSet.push(post)
           }
         });
 
@@ -983,75 +988,28 @@ const PDFGenerator = ({ id, idList }) => {
                                 </View>
                               )}
 
-                              {!leftPost && (
-                                <View
-                                  style={[
-                                    styles.postContainer,
-                                    styles.smallHeight,
-                                    styles.r,
-                                  ]}
-                                >
-                                  <View
-                                    style={[
-                                      styles.textContainerRight,
-                                      styles.smallWidth,
-                                    ]}
-                                  >
-                                    <Text style={styles.content}>
-                                      {post.content}
-                                    </Text>
-                                    <View
-                                      style={{
-                                        width: "100%",
-                                        position: "relative",
-                                      }}
-                                    >
-                                      <Text
-                                        style={[
-                                          { color: "white" },
-                                          styles.smallProfileTextr,
-                                        ]}
-                                      >
-                                        {" "}
-                                        {`- ${
-                                          post.is_anonymous
-                                            ? post.written_by
-                                            : post.written_by_profile.name
-                                        }`}
-                                        {!post.is_anonymous &&
-                                          post.written_by_profile.is_ib && (
-                                            <Image
-                                              src={verified}
-                                              style={styles.verified}
-                                            />
-                                          )}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                  <View styles={styles.imageContainerRight}>
-                                    <Image
-                                      src={
-                                        post.is_anonymous
-                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                      }
-                                      style={[
-                                        styles.profilePicRight,
-                                        styles.smallProfilePic,
-                                      ]}
-                                    />
-                                  </View>
+                          {!leftPost && (
+                            <View style={[styles.postContainer, styles.smallHeight,styles.r]}>
+                              <View style={[styles.textContainerRight, styles.smallWidth]}>
+                                <Text style={styles.content}>{post.content}</Text>
+                                <View style={{ width: "100%", position: "relative" }}>
+                                  <Text style={[{ color: "white" }, styles.smallProfileTextr]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
                                 </View>
-                              )}
+                              </View>
+                              <View styles={styles.imageContainerRight}>
+                                <Image src={post.is_anonymous
+                                  ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicRight, styles.smallProfilePicX]} />
+                              </View>
                             </View>
-                          );
-                        })}
-                    </View>
-                  </View>
+                          )}
+                        </View>
+                      );
+                    })}
                 </View>
-              </Page>
-            );
-          })}
+              </View>
+            </View>
+          </Page>
+        })}
 
         {semiMediumPosts &&
           semiMediumPosts.length !== 0 &&
