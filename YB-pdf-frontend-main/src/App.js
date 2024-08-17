@@ -11,9 +11,7 @@ const App = () => {
   const idList = [14]; // Replace this with your actual list of ids
 
   const ids = [[ 
-    
-    // 1745,81
-    // 107,6930,6715,346,798,712
+    1090
   ]];
   const downloadAnchorRef = useRef(null);
   const [readyToDownload, setReadyToDownload] = useState(false);

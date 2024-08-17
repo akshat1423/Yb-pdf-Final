@@ -2177,754 +2177,95 @@ const PDFGenerator = ({ id, idList }) => {
         )}
 
 
-          {person.smallerPosts &&
-            person.smallerPosts.map((posts, index) => {
-              return (
-                <Page size="A4" style={styles.page}>
-                  <View key={index} style={styles.section}>
-                    {/* <Image src={background} style={styles.backgroundImg} /> */}
-                    <View style={styles.containerr}>
-                      {posts.map((postSet) => {
-                        return (
-                          <View style={styles.smallerPostsContaner}>
-                            {postSet.map((post) => {
-                              return (
+{smallerPosts &&
+          smallerPosts.map((posts, index) => {
+            return (
+              <Page size="A4" style={styles.page}>
+                <View key={index} style={styles.section}>
+                  {/* <Image src={background} style={styles.backgroundImg} /> */}
+                  <View style={styles.containerr}>
+                    {posts.map((postSet) => {
+                      return (
+                        <View style={styles.smallerPostsContaner}>
+                          {postSet.map((post) => {
+                            return (
+                              <View
+                                key={post.id}
+                                style={styles.smallerPostContainer}
+                              >
+                                <View style={{ padding: "4%" }}>
+                                  <Image
+                                    src={
+                                      post.is_anonymous
+                                        ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                        : `${post.written_by_profile.profile_image}`
+                                    }
+                                    style={styles.smallerProfilePic}
+                                  />
+                                </View>
                                 <View
-                                  key={post.id}
-                                  style={styles.smallerPostContainer}
+                                  style={[
+                                    styles.textContainer,
+                                    { width: "120% !important" },
+                                  ]}
                                 >
-                                  <View style={{ padding: "4%" }}>
-                                    <Image
-                                      src={
-                                        post.is_anonymous
-                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                      }
-                                      style={styles.smallerProfilePic}
-                                    />
-                                  </View>
+                                  <Text style={styles.content}>
+                                    {post.content}
+                                  </Text>
                                   <View
-                                    style={[
-                                      styles.textContainer,
-                                      { width: "120% !important" },
-                                    ]}
+                                    style={{
+                                      width: "100%",
+                                      position: "relative",
+                                    }}
                                   >
-                                    <Text style={styles.content}>
-                                      {post.content}
-                                    </Text>
-                                    <View
-                                      style={{
-                                        width: "100%",
-                                        position: "relative",
-                                      }}
+                                    <Text
+                                      style={[
+                                        { color: "white" },
+                                        styles.smallProfileText,
+                                      ]}
                                     >
-                                      <Text
-                                        style={[
-                                          { color: "white" },
-                                          styles.smallProfileText,
-                                        ]}
-                                      >
-                                        {" "}
-                                        {`- ${post.is_anonymous
-                                            ? post.written_by
-                                            : post.written_by_profile.name
-                                          }`}
-                                        {!post.is_anonymous &&
-                                          post.written_by_profile.is_ib && (
-                                            <Image
-                                              src={verified}
-                                              style={styles.verified}
-                                            />
-                                          )}
-                                      </Text>
-                                    </View>
+                                      {" "}
+                                      {`- ${post.is_anonymous
+                                          ? post.written_by
+                                          : post.written_by_profile.name
+                                        }`}
+                                      {!post.is_anonymous &&
+                                        post.written_by_profile.is_ib && (
+                                          <Image
+                                            src={verified}
+                                            style={styles.verified}
+                                          />
+                                        )}
+                                    </Text>
                                   </View>
                                 </View>
-                              );
-                            })}
-                          </View>
-                        );
-                      })}
-                    </View>
-                  </View>
-                </Page>
-              );
-            })}
-
-          {person.smallPosts &&
-            person.smallPosts.length !== 0 &&
-            person.smallPosts.map((posts, index) => {
-              let color = ["white"];
-
-              function randomColor() {
-                return color[Math.floor(Math.random() * color.length)];
-              }
-
-              return (
-                <Page size="A4" style={styles.page}>
-                  <View key={index} style={styles.section}>
-                    <Image src={background} style={styles.backgroundImg} />
-
-                    <View style={styles.container}>
-                      <View
-                        style={{
-                          height: "5%",
-                          width: "100%",
-                          margin: "0",
-                          padding: "0",
-                          flexShrink: 0,
-                          flexGrow: 0,
-                          flexBasis: "auto",
-                        }}
-                      >
-                        <View
-                          style={{
-                            height: "100%",
-                            width: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "row",
-                          }}
-                        >
-                          <View style={{ height: "100%", width: "20%" }}>
-                            <Image
-                              src={logooo}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
-                              }}
-                            ></Image>
-                          </View>
-                          <View
-                            style={{
-                              height: "100%",
-                              width: "70%",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            {profile && (
-                              <Text
-                                style={{
-                                  color: "white",
-                                  textAlign: "center",
-                                  fontSize: 20,
-                                  fontWeight: 700,
-                                  color: "#ffffff",
-                                  fontFamily: "bebasneue",
-                                }}
-                              >
-                                {person.profile.name
-                                  .split(" ")[0]
-                                  .toUpperCase()}
-                                'S COLLEGE LIFE, FEATURING:
-                              </Text>
-                            )}
-                          </View>
-                          <View style={{ height: "100%", width: "10%" }}>
-                            <Image
-                              src={side}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
-                              }}
-                            ></Image>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={{ height: "95%" }}>
-                        {posts &&
-                          posts.map((post, key) => {
-                            const leftPost = key % 2 === 0;
-                            return (
-                              <View key={post.id}>
-                                {leftPost && (
-                                  <View
-                                    style={[
-                                      styles.postContainer,
-                                      styles.smallHeight,
-                                      styles.l,
-                                    ]}
-                                  >
-                                    <View styles={styles.imageContainer}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
-                                        style={[
-                                          styles.profilePicLeft,
-                                          styles.smallProfilePic,
-                                        ]}
-                                      />
-                                    </View>
-                                    <View
-                                      style={[
-                                        styles.textContainer,
-                                        styles.smallWidth,
-                                      ]}
-                                    >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileText,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}{" "}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}{" "}
-                                        </Text>
-                                      </View>
-                                    </View>
-                                  </View>
-                                )}
-
-                                {!leftPost && (
-                                  <View
-                                    style={[
-                                      styles.postContainer,
-                                      styles.smallHeight,
-                                      styles.r,
-                                    ]}
-                                  >
-                                    <View
-                                      style={[
-                                        styles.textContainerRight,
-                                        styles.smallWidth,
-                                      ]}
-                                    >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileTextr,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}
-                                        </Text>
-                                      </View>
-                                    </View>
-                                    <View styles={styles.imageContainerRight}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
-                                        style={[
-                                          styles.profilePicRight,
-                                          styles.smallProfilePic,
-                                        ]}
-                                      />
-                                    </View>
-                                  </View>
-                                )}
                               </View>
                             );
                           })}
-                      </View>
-                    </View>
-                  </View>
-                </Page>
-              );
-            })}
-
-          {person.semiMediumPosts &&
-            person.semiMediumPosts.length !== 0 &&
-            person.semiMediumPosts.map((posts, index) => {
-              let color = ["#9A2617", "#865dff", "#C2571A"];
-
-              function randomColor() {
-                return color[Math.floor(Math.random() * color.length)];
-              }
-
-              return (
-                <Page size="A4" style={styles.page}>
-                  <View key={index} style={styles.section}>
-                    <Image src={background} style={styles.backgroundImg} />
-
-                    <View style={styles.container}>
-                      <View
-                        style={{
-                          height: "5%",
-                          width: "100%",
-                          margin: "0",
-                          padding: "0",
-                          flexShrink: 0,
-                          flexGrow: 0,
-                          flexBasis: "auto",
-                        }}
-                      >
-                        <View
-                          style={{
-                            height: "100%",
-                            width: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "row",
-                          }}
-                        >
-                          <View style={{ height: "100%", width: "20%" }}>
-                            <Image
-                              src={logooo}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
-                              }}
-                            ></Image>
-                          </View>
-                          <View
-                            style={{
-                              height: "100%",
-                              width: "70%",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            {profile && (
-                              <Text
-                                style={{
-                                  color: "white",
-                                  textAlign: "center",
-                                  fontSize: 20,
-                                  fontWeight: 700,
-                                  color: "#ffffff",
-                                  fontFamily: "bebasneue",
-                                }}
-                              >
-                                {person.profile.name
-                                  .split(" ")[0]
-                                  .toUpperCase()}
-                                'S COLLEGE LIFE, FEATURING:
-                              </Text>
-                            )}
-                          </View>
-                          <View style={{ height: "100%", width: "10%" }}>
-                            <Image
-                              src={side}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
-                              }}
-                            ></Image>
-                          </View>
                         </View>
-                      </View>
-                      <View style={{ height: "95%" }}>
-                        {posts &&
-                          posts.map((post, key) => {
-                            const leftPost = key % 2 === 0;
-                            return (
-                              <View key={post.id}>
-                                {leftPost && (
-                                  <View
-                                    style={[
-                                      styles.postContainer,
-                                      styles.semiMediumHeight,
-                                      styles.l,
-                                    ]}
-                                  >
-                                    <View styles={styles.imageContainer}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
-                                        style={[
-                                          styles.profilePicLeft,
-                                          styles.semiMediumProfilePic,
-                                        ]}
-                                      />
-                                    </View>
-                                    <View
-                                      style={[
-                                        styles.textContainer,
-                                        styles.semiMediumWidth,
-                                      ]}
-                                    >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileText,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}{" "}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}{" "}
-                                        </Text>
-                                      </View>
-                                    </View>
-                                  </View>
-                                )}
-
-                                {!leftPost && (
-                                  <View
-                                    style={[
-                                      styles.postContainer,
-                                      styles.semiMediumHeight,
-                                      styles.r,
-                                    ]}
-                                  >
-                                    <View
-                                      style={[
-                                        styles.textContainerRight,
-                                        styles.semiMediumWidth,
-                                      ]}
-                                    >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileTextr,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}{" "}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}
-                                        </Text>
-                                      </View>
-                                    </View>
-                                    <View styles={styles.imageContainerRight}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
-                                        style={[
-                                          styles.profilePicRight,
-                                          styles.semiMediumProfilePic,
-                                        ]}
-                                      />
-                                    </View>
-                                  </View>
-                                )}
-                              </View>
-                            );
-                          })}
-                      </View>
-                    </View>
+                      );
+                    })}
                   </View>
-                </Page>
-              );
-            })}
+                </View>
+              </Page>
+            );
+          })}
 
-          {person.mediumPosts &&
-            person.mediumPosts.length !== 0 &&
-            person.mediumPosts.map((posts, index) => {
-              let color = ["#9A2617", "#865dff", "#C2571A"];
+        {smallPosts &&
+          smallPosts.length !== 0 &&
+          smallPosts.map((posts, index) => {
+            let color = ["white"];
 
-              function randomColor() {
-                return color[Math.floor(Math.random() * color.length)];
-              }
+            function randomColor() {
+              return color[Math.floor(Math.random() * color.length)];
+            }
 
-              return (
-                <Page size="A4" style={styles.page}>
-                  <View key={index} style={styles.section}>
-                    <Image src={background} style={styles.backgroundImg} />
-
-                    <View style={styles.container}>
-                      <View
-                        style={{
-                          height: "5%",
-                          width: "100%",
-                          margin: "0",
-                          padding: "0",
-                          flexShrink: 0,
-                          flexGrow: 0,
-                          flexBasis: "auto",
-                        }}
-                      >
-                        <View
-                          style={{
-                            height: "100%",
-                            width: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "row",
-                          }}
-                        >
-                          <View style={{ height: "100%", width: "20%" }}>
-                            <Image
-                              src={logooo}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
-                              }}
-                            ></Image>
-                          </View>
-                          <View
-                            style={{
-                              height: "100%",
-                              width: "70%",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            {profile && (
-                              <Text
-                                style={{
-                                  color: "white",
-                                  textAlign: "center",
-                                  fontSize: 20,
-                                  fontWeight: 700,
-                                  color: "#ffffff",
-                                  fontFamily: "bebasneue",
-                                }}
-                              >
-                                {person.profile.name
-                                  .split(" ")[0]
-                                  .toUpperCase()}
-                                'S COLLEGE LIFE, FEATURING:
-                              </Text>
-                            )}
-                          </View>
-                          <View style={{ height: "100%", width: "10%" }}>
-                            <Image
-                              src={side}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
-                              }}
-                            ></Image>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={{ height: "95%" }}>
-                        {posts &&
-                          posts.map((post, key) => {
-                            const leftPost = key % 2 === 0;
-                            return (
-                              <View key={post.id}>
-                                {leftPost && (
-                                  <View
-                                    style={[
-                                      styles.postContainer,
-                                      styles.mediumHeight,
-                                      styles.l,
-                                    ]}
-                                  >
-                                    <View styles={styles.imageContainer}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
-                                        style={[
-                                          styles.profilePicLeft,
-                                          styles.mediumProfilePic,
-                                        ]}
-                                      />
-                                    </View>
-                                    <View
-                                      style={[
-                                        styles.textContainer,
-                                        styles.mediumWidth,
-                                      ]}
-                                    >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileTextr,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}
-                                        </Text>
-                                      </View>
-                                    </View>
-                                  </View>
-                                )}
-
-                                {!leftPost && (
-                                  <View
-                                    style={[
-                                      styles.postContainer,
-                                      styles.mediumHeight,
-                                      styles.r,
-                                    ]}
-                                  >
-                                    <View
-                                      style={[
-                                        styles.textContainerRight,
-                                        styles.mediumWidth,
-                                      ]}
-                                    >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileText,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}
-                                        </Text>
-                                      </View>
-                                    </View>
-                                    <View styles={styles.imageContainerRight}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
-                                        style={[
-                                          styles.profilePicRight,
-                                          styles.mediumProfilePic,
-                                        ]}
-                                      />
-                                    </View>
-                                  </View>
-                                )}
-                              </View>
-                            );
-                          })}
-                      </View>
-                    </View>
-                  </View>
-                </Page>
-              );
-            })}
-
-          {person.largePosts &&
-            person.largePosts.length !== 0 &&
-            person.largePosts.map((posts, index) => {
-              let color = ["#9A2617", "#865dff", "#C2571A"];
-
-              function randomColor() {
-                return color[Math.floor(Math.random() * color.length)];
-              }
-
-              return (
-                <Page size="A4" style={styles.page}>
-                  <View key={index} style={styles.section}>
-                    <Image src={background} style={styles.backgroundImg} />
-
+            return (
+              <Page size="A4" style={styles.page}>
+                <View key={index} style={styles.section}>
+                  {/* <Image src={background} style={styles.backgroundImg} /> */}
+                  <View style={styles.container}>
+                    {/* <Image src={background} style={styles.backgroundImg} /> */}
                     <View
                       style={{
                         height: "5%",
@@ -2976,10 +2317,616 @@ const PDFGenerator = ({ id, idList }) => {
                                 fontFamily: "bebasneue",
                               }}
                             >
-                              {person.profile.name
-                                .split(" ")[0]
-                                .toUpperCase()}
-                              'S COLLEGE LIFE, FEATURING:
+                              {person.profile.name.split(" ")[0].toUpperCase()}'S
+                              COLLEGE LIFE, FEATURING:
+                            </Text>
+                          )}
+                        </View>
+                        <View style={{ height: "100%", width: "10%" }}>
+                          <Image
+                            src={side}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          ></Image>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={{ height: "95%" }}>
+                      {posts &&
+                        posts.map((post, key) => {
+                          const leftPost = key % 2 === 0;
+                          return (
+                            <View key={post.id}>
+                              {leftPost && (
+                                <View
+                                  style={[
+                                    styles.postContainer,
+                                    styles.smallHeight,
+                                    styles.l,
+                                  ]}
+                                >
+                                  <View styles={styles.imageContainer}>
+                                    <Image
+                                      src={
+                                        post.is_anonymous
+                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
+                                      }
+                                      style={[
+                                        styles.profilePicLeft,
+                                        styles.smallProfilePic,
+                                      ]}
+                                    />
+                                  </View>
+                                  <View
+                                    style={[
+                                      styles.textContainer,
+                                      styles.smallWidth,
+                                    ]}
+                                  >
+                                    <Text style={styles.content}>
+                                      {post.content}
+                                    </Text>
+                                    <View
+                                      style={{
+                                        width: "100%",
+                                        position: "relative",
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          { color: "white" },
+                                          styles.smallProfileText,
+                                        ]}
+                                      >
+                                        {" "}
+                                        {`- ${post.is_anonymous
+                                            ? post.written_by
+                                            : post.written_by_profile.name
+                                          }`}{" "}
+                                        {!post.is_anonymous &&
+                                          post.written_by_profile.is_ib && (
+                                            <Image
+                                              src={verified}
+                                              style={styles.verified}
+                                            />
+                                          )}{" "}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </View>
+                              )}
+
+                              {!leftPost && (
+                                <View style={[styles.postContainer, styles.smallHeight, styles.r]}>
+                                  <View style={[styles.textContainerRight, styles.smallWidth]}>
+                                    <Text style={styles.content}>{post.content}</Text>
+                                    <View style={{ width: "100%", position: "relative" }}>
+                                      <Text style={[{ color: "white" }, styles.smallProfileTextr]}> {`- ${post.is_anonymous ? post.written_by : post.written_by_profile.name}`}{!post.is_anonymous && post.written_by_profile.is_ib && <Image src={verified} style={styles.verified} />}</Text>
+                                    </View>
+                                  </View>
+                                  <View styles={styles.imageContainerRight}>
+                                    <Image src={post.is_anonymous
+                                      ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicRight, styles.smallProfilePicX]} />
+                                  </View>
+                                </View>
+                              )}
+                            </View>
+                          );
+                        })}
+                    </View>
+                  </View>
+                </View>
+              </Page>
+            );
+          })}
+
+        {semiMediumPosts &&
+          semiMediumPosts.length !== 0 &&
+          semiMediumPosts.map((posts, index) => {
+            let color = ["#9A2617", "#865dff", "#C2571A"];
+
+            function randomColor() {
+              return color[Math.floor(Math.random() * color.length)];
+            }
+
+            return (
+              <Page size="A4" style={styles.page}>
+                <View key={index} style={styles.section}>
+                  {/* <Image src={background} style={styles.backgroundImg} /> */}
+                  <View style={styles.container}>
+                    {/* <Image src={background} style={styles.backgroundImg} /> */}
+                    <View
+                      style={{
+                        height: "5%",
+                        width: "100%",
+                        margin: "0",
+                        padding: "0",
+                        flexShrink: 0,
+                        flexGrow: 0,
+                        flexBasis: "auto",
+                      }}
+                    >
+                      <View
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <View style={{ height: "100%", width: "20%" }}>
+                          <Image
+                            src={logooo}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          ></Image>
+                        </View>
+                        <View
+                          style={{
+                            height: "100%",
+                            width: "70%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {profile && (
+                            <Text
+                              style={{
+                                color: "white",
+                                textAlign: "center",
+                                fontSize: 20,
+                                fontWeight: 700,
+                                color: "#ffffff",
+                                fontFamily: "bebasneue",
+                              }}
+                            >
+                              {person.profile.name.split(" ")[0].toUpperCase()}'S
+                              COLLEGE LIFE, FEATURING:
+                            </Text>
+                          )}
+                        </View>
+                        <View style={{ height: "100%", width: "10%" }}>
+                          <Image
+                            src={side}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          ></Image>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={{ height: "95%" }}>
+                      {posts &&
+                        posts.map((post, key) => {
+                          const leftPost = key % 2 === 0;
+                          return (
+                            <View key={post.id}>
+                              {leftPost && (
+                                <View
+                                  style={[
+                                    styles.postContainer,
+                                    styles.semiMediumHeight,
+                                    styles.l,
+                                  ]}
+                                >
+                                  <View styles={styles.imageContainer}>
+                                    <Image
+                                      src={
+                                        post.is_anonymous
+                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
+                                      }
+                                      style={[
+                                        styles.profilePicLeft,
+                                        styles.semiMediumProfilePic,
+                                      ]}
+                                    />
+                                  </View>
+                                  <View
+                                    style={[
+                                      styles.textContainer,
+                                      styles.semiMediumWidth,
+                                    ]}
+                                  >
+                                    <Text style={styles.content}>
+                                      {post.content}
+                                    </Text>
+                                    <View
+                                      style={{
+                                        width: "100%",
+                                        position: "relative",
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          { color: "white" },
+                                          styles.smallProfileText,
+                                        ]}
+                                      >
+                                        {" "}
+                                        {`- ${post.is_anonymous
+                                            ? post.written_by
+                                            : post.written_by_profile.name
+                                          }`}{" "}
+                                        {!post.is_anonymous &&
+                                          post.written_by_profile.is_ib && (
+                                            <Image
+                                              src={verified}
+                                              style={styles.verified}
+                                            />
+                                          )}{" "}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </View>
+                              )}
+
+                              {!leftPost && (
+                                <View
+                                  style={[
+                                    styles.postContainer,
+                                    styles.semiMediumHeight,
+                                    styles.r,
+                                  ]}
+                                >
+                                  <View
+                                    style={[
+                                      styles.textContainerRight,
+                                      styles.semiMediumWidth,
+                                    ]}
+                                  >
+                                    <Text style={styles.content}>
+                                      {post.content}
+                                    </Text>
+                                    <View
+                                      style={{
+                                        width: "100%",
+                                        position: "relative",
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          { color: "white" },
+                                          styles.smallProfileTextr,
+                                        ]}
+                                      >
+                                        {" "}
+                                        {`- ${post.is_anonymous
+                                            ? post.written_by
+                                            : post.written_by_profile.name
+                                          }`}{" "}
+                                        {!post.is_anonymous &&
+                                          post.written_by_profile.is_ib && (
+                                            <Image
+                                              src={verified}
+                                              style={styles.verified}
+                                            />
+                                          )}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                  <View styles={styles.imageContainerRight}>
+                                    <Image
+                                      src={
+                                        post.is_anonymous
+                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
+                                      }
+                                      style={[
+                                        styles.profilePicRight,
+                                        styles.semiMediumProfilePic,
+                                      ]}
+                                    />
+                                  </View>
+                                </View>
+                              )}
+                            </View>
+                          );
+                        })}
+                    </View>
+                  </View>
+                </View>
+              </Page>
+            );
+          })}
+
+        {mediumPosts &&
+          mediumPosts.length !== 0 &&
+          mediumPosts.map((posts, index) => {
+            let color = ["#9A2617", "#865dff", "#C2571A"];
+
+            function randomColor() {
+              return color[Math.floor(Math.random() * color.length)];
+            }
+
+            return (
+              <Page size="A4" style={styles.page}>
+                <View key={index} style={styles.section}>
+                  {/* <Image src={background} style={styles.backgroundImg} /> */}
+                  <View style={styles.container}>
+                    {/* <Image src={background} style={styles.backgroundImg} /> */}
+                    <View
+                      style={{
+                        height: "5%",
+                        width: "100%",
+                        margin: "0",
+                        padding: "0",
+                        flexShrink: 0,
+                        flexGrow: 0,
+                        flexBasis: "auto",
+                      }}
+                    >
+                      <View
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <View style={{ height: "100%", width: "20%" }}>
+                          <Image
+                            src={logooo}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          ></Image>
+                        </View>
+                        <View
+                          style={{
+                            height: "100%",
+                            width: "70%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {profile && (
+                            <Text
+                              style={{
+                                color: "white",
+                                textAlign: "center",
+                                fontSize: 20,
+                                fontWeight: 700,
+                                color: "#ffffff",
+                                fontFamily: "bebasneue",
+                              }}
+                            >
+                              {person.profile.name.split(" ")[0].toUpperCase()}'S
+                              COLLEGE LIFE, FEATURING:
+                            </Text>
+                          )}
+                        </View>
+                        <View style={{ height: "100%", width: "10%" }}>
+                          <Image
+                            src={side}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          ></Image>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={{ height: "95%" }}>
+                      {posts &&
+                        posts.map((post, key) => {
+                          const leftPost = key % 2 === 0;
+                          return (
+                            <View key={post.id}>
+                              {leftPost && (
+                                <View
+                                  style={[
+                                    styles.postContainer,
+                                    styles.mediumHeight,
+                                    styles.l,
+                                  ]}
+                                >
+                                  <View styles={styles.imageContainer}>
+                                    <Image
+                                      src={
+                                        post.is_anonymous
+                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
+                                      }
+                                      style={[
+                                        styles.profilePicLeft,
+                                        styles.mediumProfilePic,
+                                      ]}
+                                    />
+                                  </View>
+                                  <View
+                                    style={[
+                                      styles.textContainer,
+                                      styles.mediumWidth,
+                                    ]}
+                                  >
+                                    <Text style={styles.content}>
+                                      {post.content}
+                                    </Text>
+                                    <View
+                                      style={{
+                                        width: "100%",
+                                        position: "relative",
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          { color: "white" },
+                                          styles.smallProfileText,
+                                        ]}
+                                      >
+                                        {" "}
+                                        {`- ${post.is_anonymous
+                                            ? post.written_by
+                                            : post.written_by_profile.name
+                                          }`}
+                                        {!post.is_anonymous &&
+                                          post.written_by_profile.is_ib && (
+                                            <Image
+                                              src={verified}
+                                              style={styles.verified}
+                                            />
+                                          )}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </View>
+                              )}
+
+                              {!leftPost && (
+                                <View
+                                  style={[
+                                    styles.postContainer,
+                                    styles.mediumHeight,
+                                    styles.r,
+                                  ]}
+                                >
+                                  <View
+                                    style={[
+                                      styles.textContainerRight,
+                                      styles.mediumWidth,
+                                    ]}
+                                  >
+                                    <Text style={styles.content}>
+                                      {post.content}
+                                    </Text>
+                                    <View
+                                      style={{
+                                        width: "100%",
+                                        position: "relative",
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          { color: "white" },
+                                          styles.smallProfileTextr,
+                                        ]}
+                                      >
+                                        {" "}
+                                        {`- ${post.is_anonymous
+                                            ? post.written_by
+                                            : post.written_by_profile.name
+                                          }`}
+                                        {!post.is_anonymous &&
+                                          post.written_by_profile.is_ib && (
+                                            <Image
+                                              src={verified}
+                                              style={styles.verified}
+                                            />
+                                          )}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                  <View styles={styles.imageContainerRight}>
+                                    <Image
+                                      src={
+                                        post.is_anonymous
+                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
+                                      }
+                                      style={[
+                                        styles.profilePicRight,
+                                        styles.mediumProfilePic,
+                                      ]}
+                                    />
+                                  </View>
+                                </View>
+                              )}
+                            </View>
+                          );
+                        })}
+                    </View>
+                  </View>
+                </View>
+              </Page>
+            );
+          })}
+
+        {largePosts &&
+          largePosts.length !== 0 &&
+          largePosts.map((posts, index) => {
+            let color = ["#9A2617", "#865dff", "#C2571A"];
+
+            function randomColor() {
+              return color[Math.floor(Math.random() * color.length)];
+            }
+
+            return (
+              <Page size="A4" style={styles.page}>
+                <View key={index} style={styles.section}>
+                  {/* <Image src={background} style={styles.backgroundImg} /> */}
+                  <View style={styles.container}>
+                    <View
+                      style={{
+                        height: "5%",
+                        width: "100%",
+                        margin: "0",
+                        padding: "0",
+                        flexShrink: 0,
+                        flexGrow: 0,
+                        flexBasis: "auto",
+                      }}
+                    >
+                      <View
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <View style={{ height: "100%", width: "20%" }}>
+                          <Image
+                            src={logooo}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          ></Image>
+                        </View>
+                        <View
+                          style={{
+                            height: "100%",
+                            width: "70%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {profile && (
+                            <Text
+                              style={{
+                                color: "white",
+                                textAlign: "center",
+                                fontSize: 20,
+                                fontWeight: 700,
+                                color: "#ffffff",
+                                fontFamily: "bebasneue",
+                              }}
+                            >
+                              {person.profile.name.split(" ")[0].toUpperCase()}'S
+                              COLLEGE LIFE, FEATURING:
                             </Text>
                           )}
                         </View>
@@ -3125,230 +3072,227 @@ const PDFGenerator = ({ id, idList }) => {
                         })}
                     </View>
                   </View>
-                  {/* </View> */}
-                </Page>
-              );
-            })}
+                </View>
+              </Page>
+            );
+          })}
 
-          {person.largerPosts &&
-            person.largerPosts.length !== 0 &&
-            person.largerPosts.map((posts, index) => {
-              let color = ["#9A2617", "#865dff", "#C2571A"];
+        {largerPosts &&
+          largerPosts.length !== 0 &&
+          largerPosts.map((posts, index) => {
+            let color = ["#9A2617", "#865dff", "#C2571A"];
 
-              function randomColor() {
-                return color[Math.floor(Math.random() * color.length)];
-              }
+            function randomColor() {
+              return color[Math.floor(Math.random() * color.length)];
+            }
 
-              return (
-                <Page size="A4" style={styles.page}>
-                  <View key={index} style={styles.section}>
-                    <Image src={background} style={styles.backgroundImg} />
-
-                    <View style={styles.container}>
+            return (
+              <Page size="A4" style={styles.page}>
+                <View key={index} style={styles.section}>
+                  <View style={styles.container}>
+                    {/* <Image src={background} style={styles.backgroundImg} /> */}
+                    <View
+                      style={{
+                        height: "5%",
+                        width: "100%",
+                        margin: "0",
+                        padding: "0",
+                        flexShrink: 0,
+                        flexGrow: 0,
+                        flexBasis: "auto",
+                      }}
+                    >
                       <View
                         style={{
-                          height: "5%",
+                          height: "100%",
                           width: "100%",
-                          margin: "0",
-                          padding: "0",
-                          flexShrink: 0,
-                          flexGrow: 0,
-                          flexBasis: "auto",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "row",
                         }}
                       >
+                        <View style={{ height: "100%", width: "20%" }}>
+                          <Image
+                            src={logooo}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
+                            }}
+                          ></Image>
+                        </View>
                         <View
                           style={{
                             height: "100%",
-                            width: "100%",
+                            width: "70%",
                             display: "flex",
-                            alignItems: "center",
                             justifyContent: "center",
-                            flexDirection: "row",
+                            alignItems: "center",
                           }}
                         >
-                          <View style={{ height: "100%", width: "20%" }}>
-                            <Image
-                              src={logooo}
+                          {profile && (
+                            <Text
                               style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
+                                color: "white",
+                                textAlign: "center",
+                                fontSize: 20,
+                                fontWeight: 700,
+                                color: "#ffffff",
+                                fontFamily: "bebasneue",
                               }}
-                            ></Image>
-                          </View>
-                          <View
+                            >
+                              {person.profile.name.split(" ")[0].toUpperCase()}'S
+                              COLLEGE LIFE, FEATURING:
+                            </Text>
+                          )}
+                        </View>
+                        <View style={{ height: "100%", width: "10%" }}>
+                          <Image
+                            src={side}
                             style={{
-                              height: "100%",
-                              width: "70%",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "contain",
                             }}
-                          >
-                            {profile && (
-                              <Text
-                                style={{
-                                  color: "white",
-                                  textAlign: "center",
-                                  fontSize: 20,
-                                  fontWeight: 700,
-                                  color: "#ffffff",
-                                  fontFamily: "bebasneue",
-                                }}
-                              >
-                                {person.profile.name
-                                  .split(" ")[0]
-                                  .toUpperCase()}
-                                'S COLLEGE LIFE, FEATURING:
-                              </Text>
-                            )}
-                          </View>
-                          <View style={{ height: "100%", width: "10%" }}>
-                            <Image
-                              src={side}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                objectFit: "contain",
-                              }}
-                            ></Image>
-                          </View>
+                          ></Image>
                         </View>
                       </View>
-                      <View style={{ height: "95%" }}>
-                        {posts &&
-                          posts.map((post, key) => {
-                            const leftPost = key % 2 === 0;
-                            return (
-                              <View key={post.id}>
-                                {leftPost && (
+                    </View>
+                    <View style={{ height: "95%" }}>
+                      {posts &&
+                        posts.map((post, key) => {
+                          const leftPost = key % 2 === 0;
+                          return (
+                            <View key={post.id}>
+                              {leftPost && (
+                                <View
+                                  style={[
+                                    styles.postContainer,
+                                    styles.largerHeight,
+                                    styles.l,
+                                  ]}
+                                >
+                                  <View styles={styles.imageContainer}>
+                                    <Image
+                                      src={
+                                        post.is_anonymous
+                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
+                                      }
+                                      style={[
+                                        styles.profilePicLeft,
+                                        styles.largerProfilePic,
+                                      ]}
+                                    />
+                                  </View>
                                   <View
                                     style={[
-                                      styles.postContainer,
-                                      styles.largerHeight,
-                                      styles.l,
+                                      styles.textContainer,
+                                      styles.largerWidth,
                                     ]}
                                   >
-                                    <View styles={styles.imageContainer}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
-                                        style={[
-                                          styles.profilePicLeft,
-                                          styles.largerProfilePic,
-                                        ]}
-                                      />
-                                    </View>
+                                    <Text style={styles.content}>
+                                      {post.content}
+                                    </Text>
                                     <View
-                                      style={[
-                                        styles.textContainer,
-                                        styles.largerWidth,
-                                      ]}
+                                      style={{
+                                        width: "100%",
+                                        position: "relative",
+                                      }}
                                     >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
+                                      <Text
+                                        style={[
+                                          { color: "white" },
+                                          styles.smallProfileText,
+                                        ]}
                                       >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileText,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}
-                                        </Text>
-                                      </View>
+                                        {" "}
+                                        {`- ${post.is_anonymous
+                                            ? post.written_by
+                                            : post.written_by_profile.name
+                                          }`}
+                                        {!post.is_anonymous &&
+                                          post.written_by_profile.is_ib && (
+                                            <Image
+                                              src={verified}
+                                              style={styles.verified}
+                                            />
+                                          )}
+                                      </Text>
                                     </View>
                                   </View>
-                                )}
+                                </View>
+                              )}
 
-                                {!leftPost && (
+                              {!leftPost && (
+                                <View
+                                  style={[
+                                    styles.postContainer,
+                                    styles.largerHeight,
+                                    styles.r,
+                                  ]}
+                                >
                                   <View
                                     style={[
-                                      styles.postContainer,
-                                      styles.largerHeight,
-                                      styles.r,
+                                      styles.textContainerRight,
+                                      styles.largerWidth,
                                     ]}
                                   >
+                                    <Text style={styles.content}>
+                                      {post.content}
+                                    </Text>
                                     <View
-                                      style={[
-                                        styles.textContainerRight,
-                                        styles.largerWidth,
-                                      ]}
+                                      style={{
+                                        width: "100%",
+                                        position: "relative",
+                                      }}
                                     >
-                                      <Text style={styles.content}>
-                                        {post.content}
-                                      </Text>
-                                      <View
-                                        style={{
-                                          width: "100%",
-                                          position: "relative",
-                                        }}
-                                      >
-                                        <Text
-                                          style={[
-                                            { color: "white" },
-                                            styles.smallProfileTextr,
-                                          ]}
-                                        >
-                                          {" "}
-                                          {`- ${post.is_anonymous
-                                              ? post.written_by
-                                              : post.written_by_profile.name
-                                            }`}
-                                          {!post.is_anonymous &&
-                                            post.written_by_profile.is_ib && (
-                                              <Image
-                                                src={verified}
-                                                style={styles.verified}
-                                              />
-                                            )}
-                                        </Text>
-                                      </View>
-                                    </View>
-                                    <View styles={styles.imageContainerRight}>
-                                      <Image
-                                        src={
-                                          post.is_anonymous
-                                            ? "https://avatars.githubusercontent.com/u/16786985?v=4"
-                                            : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
-                                        }
+                                      <Text
                                         style={[
-                                          styles.profilePicRight,
-                                          styles.largerProfilePic,
+                                          { color: "white" },
+                                          styles.smallProfileTextr,
                                         ]}
-                                      />
+                                      >
+                                        {" "}
+                                        {`- ${post.is_anonymous
+                                            ? post.written_by
+                                            : post.written_by_profile.name
+                                          }`}
+                                        {!post.is_anonymous &&
+                                          post.written_by_profile.is_ib && (
+                                            <Image
+                                              src={verified}
+                                              style={styles.verified}
+                                            />
+                                          )}
+                                      </Text>
                                     </View>
                                   </View>
-                                )}
-                              </View>
-                            );
-                          })}
-                      </View>
+                                  <View styles={styles.imageContainerRight}>
+                                    <Image
+                                      src={
+                                        post.is_anonymous
+                                          ? "https://avatars.githubusercontent.com/u/16786985?v=4"
+                                          : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`
+                                      }
+                                      style={[
+                                        styles.profilePicRight,
+                                        styles.largerProfilePic,
+                                      ]}
+                                    />
+                                  </View>
+                                </View>
+                              )}
+                            </View>
+                          );
+                        })}
                     </View>
                   </View>
-                </Page>
-              );
-            })}
+                </View>
+              </Page>
+            );
+          })}
         </>
       )}
 
