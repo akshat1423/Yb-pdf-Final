@@ -672,10 +672,8 @@ const PDFGenerator = ({ id, idList }) => {
                     <Text style={[stylesProfile.text, stylesProfile.emailText]}>
                       Email: {profile.email}
                     </Text>
-                    <Text
-                      style={[stylesProfile.text, stylesProfile.hostelText]}
-                    >
-                      Hostel: {profile.hostel}
+                    <Text style={[stylesProfile.text, stylesProfile.hostelText]}>
+                      Hostel: {profile.hostel.toLowerCase() === 'qip' ? 'QIP' : profile.hostel.replace('hostel_', 'Hostel ').replace(/\b\w/g, (char) => char.toUpperCase())}
                     </Text>
                     <Text
                       style={[stylesProfile.text, stylesProfile.room_noText]}
@@ -1009,6 +1007,7 @@ const PDFGenerator = ({ id, idList }) => {
               </View>
             </View>
           </Page>
+          );
         })}
 
         {semiMediumPosts &&
@@ -1936,10 +1935,8 @@ const PDFGenerator = ({ id, idList }) => {
                         >
                           Email: {person.profile.email}
                         </Text>
-                        <Text
-                          style={[stylesProfile.text, stylesProfile.hostelText]}
-                        >
-                          Hostel: {person.profile.hostel}
+                        <Text style={[stylesProfile.text, stylesProfile.hostelText]}>
+                          Hostel: {profile.hostel.toLowerCase() === 'qip' ? 'QIP' : profile.hostel.replace('hostel_', 'Hostel ').replace(/\b\w/g, (char) => char.toUpperCase())}
                         </Text>
                         <Text
                           style={[
@@ -1996,7 +1993,7 @@ const PDFGenerator = ({ id, idList }) => {
 
                   <View style={stylesProfile.container}>
                     <View style={stylesProfile.gradientBox} />
-                    {/* <View style={stylesProfile.imageRow}>
+                    <View style={stylesProfile.imageRow}>
                       <View style={stylesProfile.imageContainer}>
                         {profile.img1 && (
                           <Image
@@ -2032,7 +2029,7 @@ const PDFGenerator = ({ id, idList }) => {
                           />
                         )}
                       </View>
-                    </View> */}
+                    </View>
                   </View>
                 </View>
               </Page>
