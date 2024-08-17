@@ -8,6 +8,37 @@ import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 from django.conf import settings
 import os
+from concurrent.futures import ThreadPoolExecutor
+from django.http import JsonResponse
+import requests 
+from rest_framework import generics
+from .models import idData
+from .serializers import idDataSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+class idDataCreateView(generics.CreateAPIView):
+    queryset = idData.objects.all()
+    serializer_class = idDataSerializer
+
+@api_view(['POST'])
+def receive_data(request):
+    received_data = request.data
+    idData.objects.create(
+        yearbookId=received_data.get('yearbookId'),
+        otherSelectedPeople=received_data.get('otherSelectedPeople')
+    )
+    
+    # Process the received data
+    print("Received data:", received_data)
+    
+    return Response({'status': 'success', 'message': 'Data received successfully'})
+
+@api_view(['GET'])
+def get_existing_data(request):
+    data = idData.objects.all()
+    serializer = idDataSerializer(data, many=True)
+    return Response(serializer.data)
 
 # Function to download image
 def download_image(url):

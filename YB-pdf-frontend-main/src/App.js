@@ -6,13 +6,36 @@ import {
   PDFViewer,
 } from "@react-pdf/renderer";
 import PDFGenerator from "./Pages/PDFGenerator";
+import axios from "axios";
 
 const App = () => {
-  const idList = [5972]; // Replace this with your actual list of ids
+  const [data, setData] = useState([]);
 
-  const ids = [[ 
-    6718
-  ]];
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/id_data')
+      .then(response => {
+        setData(response.data);
+        console.log(data);
+      })
+      .catch(error => {
+        console.log('error')
+        
+        console.error('There was an error fetching the data!', error);
+      });
+      
+  }, []);
+
+  const idList = (data.length !== 0) ? [data[data.length - 1].yearbookId] : []; // Replace this with your actual list of ids
+  // console.log("idList = ",idList);
+  console.log(data)
+
+  let ids = [];
+  if(data.length !== 0 && data[data.length - 1].otherSelectedPeople === ""){
+    ids = [];
+  }
+  else{
+    ids = (data.length !== 0) ? [JSON.parse(data[data.length - 1].otherSelectedPeople)] : [];
+  }
   const downloadAnchorRef = useRef(null);
   const [readyToDownload, setReadyToDownload] = useState(false);
   // useEffect(() => {
