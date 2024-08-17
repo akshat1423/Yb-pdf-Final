@@ -57,7 +57,7 @@ export const stylesProfile = StyleSheet.create({
     // borderRadius: '0%',
     // borderStyle: 'solid',
     // borderWidth: 6,
-    // borderColor: 'gray',
+    // borderColor: 'white',
     padding: 6,
     objectFit: 'cover',
   },
@@ -214,7 +214,7 @@ export const stylesProfile = StyleSheet.create({
     padding: '10px',
     borderTop: '2px solid red',
     borderRight: '2px solid red',
-    borderLeft: '2px solid transparent',  // Transparent border on the right
+    // borderLeft: '2px solid transparent',
     borderBottom: '2px solid red', // Transparent border on the bottom
 
     
@@ -226,7 +226,7 @@ export const stylesProfile = StyleSheet.create({
     padding: '10px',
     borderTop: '2px solid red',
     borderLeft: '2px solid red',
-    borderRight: '2px solid transparent',  // Transparent border on the right
+    // borderRight: '2px solid transparent',
     borderBottom: '2px solid red', // Transparent border on the bottom
   },
 

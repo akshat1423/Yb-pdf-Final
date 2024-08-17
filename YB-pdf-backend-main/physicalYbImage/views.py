@@ -5,12 +5,11 @@ from PIL import Image, ImageChops
 import requests
 from io import BytesIO
 import numpy as np
-import os
 from concurrent.futures import ThreadPoolExecutor
+from django.conf import settings
+import os
 
 # Function to download image
-
-
 def download_image(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -18,8 +17,6 @@ def download_image(url):
     return None
 
 # Function to compare images using Mean Squared Error (MSE)
-
-
 def compare_images(image1, image2, similarity_threshold=99.0):
     if image1.size != image2.size:
         return False
@@ -36,7 +33,6 @@ def compare_images(image1, image2, similarity_threshold=99.0):
 
 # Function to resize image
 
-
 def resize_image(image, max_size=100):
     if max(image.size) > max_size:
         aspect_ratio = float(image.size[0]) / float(image.size[1])
@@ -48,7 +44,6 @@ def resize_image(image, max_size=100):
     return image
 
 # Main function to process posts
-
 
 def process_post(post):
     print(post['id'])
@@ -70,7 +65,6 @@ def process_post(post):
                 'profile_image'] = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
 
     return post
-
 
 def process_profiles(profile):
     comparisonImageUrlProfile = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
@@ -95,21 +89,21 @@ def process_profiles(profile):
     image = resize_image(future_image1.result())
 
     if compare_images(comparisonImage, image):
-        profile['img1'] = "1"
+        profile['img1'] = "https://e0.pxfuel.com/wallpapers/363/464/desktop-wallpaper-iit-bombay.jpg"
     else:
         profile['img1'] = f'https://yearbook.sarc-iitb.org{profile["img1"]}'
 
     image = resize_image(future_image2.result())
 
     if compare_images(comparisonImage, image):
-        profile['img2'] = "2"
+        profile['img2'] = "https://akm-img-a-in.tosshub.com/businesstoday/images/story/202307/ezgif-sixteen_nine_649.jpg?size=948:533"
     else:
         profile['img2'] = f'https://yearbook.sarc-iitb.org{profile["img2"]}'
 
     image = resize_image(future_image3.result())
 
     if compare_images(comparisonImage, image):
-        profile['img3'] = "3"
+        profile['img3'] = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/IITB_Large_hall_in_lecture_hall_complex.JPG/1920px-IITB_Large_hall_in_lecture_hall_complex.JPG"
     else:
         profile['img3'] = f'https://yearbook.sarc-iitb.org{profile["img3"]}'
 
@@ -123,7 +117,8 @@ def process_profiles(profile):
     image = resize_image(future_profile_img.result())
 
     if compare_images(comparisonImageProfile, image):
-        profile['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
+        # profile['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
+        profile['profile_image'] = "https://preview.redd.it/sgfxdosc4qo81.png?width=338&format=png&auto=webp&s=68081fe5673ff6ac567a531ae01a786ca80695f6"
     else:
         profile['profile_image'] = f'https://yearbook.sarc-iitb.org{profile["profile_image"]}'
 
