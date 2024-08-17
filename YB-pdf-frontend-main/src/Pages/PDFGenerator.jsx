@@ -66,7 +66,7 @@ Font.register({ family:'myriad',src:myriad});
 
 Font.registerEmojiSource({
   format: 'png',
-  url: "https://twemoji.maxcdn.com/2/72x72/",
+  url: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/",
 });
 
 
@@ -157,11 +157,11 @@ const PDFGenerator = ({ id, idList }) => {
             zerothSet.push(post);
           }
 
-          else if ((post.content.length >= 1200) && (post.content.length < 1700)) {
+          else if ((post.content.length >= 1000) && (post.content.length < 1700)) {
             firstSet.push(post)
           }
 
-          else if ((post.content.length >= 800) && (post.content.length < 1200)) {
+          else if ((post.content.length >= 800) && (post.content.length < 1000)) {
             secondSet.push(post)
           }
 
@@ -866,7 +866,7 @@ const PDFGenerator = ({ id, idList }) => {
                               </View>
                               <View styles={styles.imageContainerRight}>
                                 <Image src={post.is_anonymous
-                                  ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicRight, styles.smallProfilePic]} />
+                                  ? "https://avatars.githubusercontent.com/u/16786985?v=4" : `https://yearbook.sarc-iitb.org${post.written_by_profile.profile_image}`} style={[styles.profilePicRight, styles.smallProfilePicX]} />
                               </View>
                             </View>
                           )}
