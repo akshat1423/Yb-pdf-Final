@@ -738,15 +738,38 @@ const PDFGenerator = ({ id, idList }) => {
 
         <Page size="A4" style={stylesSigningOff.page}>
           <View style={stylesSigningOff.section}>
-            <Image src={front3} style={stylesSigningOff.backgroundImg} />
+            <Image src={front4} style={stylesSigningOff.backgroundImg} />
           </View>
         </Page>
 
         <Page size="A4" style={stylesSigningOff.page}>
           <View style={stylesSigningOff.section}>
-            <Image src={front4} style={stylesSigningOff.backgroundImg} />
+            <Image src={front3} style={stylesSigningOff.backgroundImg} />
           </View>
         </Page>
+        <Page size="A4" style={stylesSigningOff.page}>
+            <View style={stylesSigningOff.section}>
+              <Image src={back1} style={stylesSigningOff.backgroundImg} />
+            </View>
+          </Page>
+
+          <Page size="A4" style={stylesSigningOff.page}>
+            <View style={stylesSigningOff.section}>
+              <Image src={back2} style={stylesSigningOff.backgroundImg} />
+            </View>
+          </Page>
+
+          <Page size="A4" style={stylesSigningOff.page}>
+            <View style={stylesSigningOff.section}>
+              <Image src={back3} style={stylesSigningOff.backgroundImg} />
+            </View>
+          </Page>
+
+          <Page size="A4" style={stylesSigningOff.page}>
+            <View style={stylesSigningOff.section}>
+              <Image src={back4} style={stylesSigningOff.backgroundImg} />
+            </View>
+          </Page>
         {profile && (
           <Page size="A4" style={styles.page}>
             <View style={stylesProfile.section}>
@@ -3543,29 +3566,7 @@ const PDFGenerator = ({ id, idList }) => {
 
       {true && (
         <>
-          <Page size="A4" style={stylesSigningOff.page}>
-            <View style={stylesSigningOff.section}>
-              <Image src={back1} style={stylesSigningOff.backgroundImg} />
-            </View>
-          </Page>
-
-          <Page size="A4" style={stylesSigningOff.page}>
-            <View style={stylesSigningOff.section}>
-              <Image src={back2} style={stylesSigningOff.backgroundImg} />
-            </View>
-          </Page>
-
-          <Page size="A4" style={stylesSigningOff.page}>
-            <View style={stylesSigningOff.section}>
-              <Image src={back3} style={stylesSigningOff.backgroundImg} />
-            </View>
-          </Page>
-
-          <Page size="A4" style={stylesSigningOff.page}>
-            <View style={stylesSigningOff.section}>
-              <Image src={back4} style={stylesSigningOff.backgroundImg} />
-            </View>
-          </Page>
+          
 
           <Page size="A4" style={stylesSigningOff.page}>
             <View style={stylesSigningOff.section}>

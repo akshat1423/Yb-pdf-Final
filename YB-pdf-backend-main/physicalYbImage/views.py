@@ -8,6 +8,37 @@ import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 from django.conf import settings
 import os
+from concurrent.futures import ThreadPoolExecutor
+from django.http import JsonResponse
+import requests 
+from rest_framework import generics
+from .models import idData
+from .serializers import idDataSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+class idDataCreateView(generics.CreateAPIView):
+    queryset = idData.objects.all()
+    serializer_class = idDataSerializer
+
+@api_view(['POST'])
+def receive_data(request):
+    received_data = request.data
+    idData.objects.create(
+        yearbookId=received_data.get('yearbookId'),
+        otherSelectedPeople=received_data.get('otherSelectedPeople')
+    )
+    
+    # Process the received data
+    print("Received data:", received_data)
+    
+    return Response({'status': 'success', 'message': 'Data received successfully'})
+
+@api_view(['GET'])
+def get_existing_data(request):
+    data = idData.objects.all()
+    serializer = idDataSerializer(data, many=True)
+    return Response(serializer.data)
 
 # Function to download image
 def download_image(url):
@@ -32,7 +63,6 @@ def compare_images(image1, image2, similarity_threshold=99.0):
     return similarity_percentage >= similarity_threshold
 
 # Function to resize image
-
 def resize_image(image, max_size=100):
     if max(image.size) > max_size:
         aspect_ratio = float(image.size[0]) / float(image.size[1])
@@ -44,11 +74,11 @@ def resize_image(image, max_size=100):
     return image
 
 # Main function to process posts
-
 def process_post(post):
     print(post['id'])
     if not post['is_anonymous']:
-        comparisonImageUrl = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
+        # comparisonImageUrl = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
+        comparisonImageUrl = "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
         comparisonImage = resize_image(download_image(comparisonImageUrl))
 
         image_url = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
@@ -61,15 +91,15 @@ def process_post(post):
         if compare_images(comparisonImage, image):
             post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
         else:
-            post['written_by_profile'][
-                'profile_image'] = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
+            post['written_by_profile']['profile_image'] = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
 
     return post
 
 def process_profiles(profile):
-    comparisonImageUrlProfile = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
-    comparisonImageProfile = resize_image(
-        download_image(comparisonImageUrlProfile))
+    # comparisonImageUrlProfile = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
+    comparisonImageUrlProfile = "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
+    comparisonImageProfile = resize_image(download_image(comparisonImageUrlProfile))
+    
     comparisonImageUrl = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_6/img4.png"
     comparisonImage = resize_image(download_image(comparisonImageUrl))
 
@@ -118,7 +148,7 @@ def process_profiles(profile):
 
     if compare_images(comparisonImageProfile, image):
         # profile['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
-        profile['profile_image'] = "https://preview.redd.it/sgfxdosc4qo81.png?width=338&format=png&auto=webp&s=68081fe5673ff6ac567a531ae01a786ca80695f6"
+        profile['profile_image'] = "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
     else:
         profile['profile_image'] = f'https://yearbook.sarc-iitb.org{profile["profile_image"]}'
 
